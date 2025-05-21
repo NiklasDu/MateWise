@@ -14,6 +14,9 @@ function Hero() {
                         Jetzt Anmelden
                     </a>  
                 </div>
+                <div class="px-6">
+                    <img src="hero_picture.jpg" alt="People Learning" class="w-full max-w-xl mx-auto rounded-lg shadow-lg object-cover" />
+                </div>
             </div>
         </section>
     )
