@@ -39,7 +39,7 @@ function Navbar() {
                 className={`block py-2 px-3 text-gray-900 rounded-sm ${
                   location.pathname === '/'
                     ? 'text-white bg-emerald-700 md:bg-transparent md:text-emerald-700 dark:text-emerald-500'
-                    : 'text-gray-900 hover:bg-gray-500 md:hover:text-emerald-700 dark:text-white'
+                    : 'text-gray-900 hover:bg-gray-100 md:hover:text-emerald-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-gray-800'
                 }`}>Startseite</Link>
             </li>
             <li>
@@ -48,7 +48,7 @@ function Navbar() {
                 className={`block py-2 px-3 text-gray-900 rounded-sm ${
                     location.pathname === '/dashboard' 
                       ? 'text-white bg-emerald-700 md:bg-transparent md:text-emerald-700 dark:text-emerald-500' 
-                      : 'text-gray-900 hover:bg-gray-500 md:hover:text-emerald-700 dark:text-white'
+                      : 'text-gray-900 hover:bg-gray-100 md:hover:text-emerald-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-gray-800'
                 }`}>Dashboard</Link>
             </li>
             <li>
@@ -57,7 +57,7 @@ function Navbar() {
                 className={`block py-2 px-3 text-gray-900 rounded-sm  ${
                     location.pathname === '/matching' 
                       ? 'text-white bg-emerald-700 md:bg-transparent md:text-emerald-700 dark:text-emerald-500' 
-                      : 'text-gray-900 hover:bg-gray-500 md:hover:text-emerald-700  dark:text-white'
+                      : 'text-gray-900 hover:bg-gray-100 md:hover:text-emerald-700  dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-gray-800'
                 }`}>Lernpartner finden</Link>
             </li>
           </ul>
