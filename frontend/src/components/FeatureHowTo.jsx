@@ -2,8 +2,12 @@ function FeatureHowTo() {
     return (
         <section class="bg-white dark:bg-gray-900">
             <div class="container max-w-screen-xl px-16 py-10 mx-auto">
-                <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white"> <span class="underline decoration-emerald-600">So funktioniert's:</span></h1>
-
+                <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">So funktioniert's:</h1>
+                <div class="mt-1">
+                                <span class="inline-block w-40 h-1 bg-emerald-600 rounded-full"></span>
+                                <span class="inline-block w-3 h-1 ml-1 bg-emerald-600 rounded-full"></span>
+                                <span class="inline-block w-1 h-1 ml-1 bg-emerald-600 rounded-full"></span>
+                            </div>
                 <p class="mt-4 text-gray-500 xl:mt-6 dark:text-gray-300">
                     Es ist einfach zu einfach, um wahr zu sein.
                 </p>
@@ -17,7 +21,7 @@ function FeatureHowTo() {
                             </svg>
                         </span>
 
-                        <h1 class="text-xl font-semibold text-gray-700 capitalize dark:text-white">Registrieren</h1>
+                        <h1 class="text-xl font-semibold text-gray-700 dark:text-white">Registrieren</h1>
 
                         <p class="text-gray-500 dark:text-gray-300">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ab nulla quod dignissimos vel non corrupti doloribus voluptatum eveniet
@@ -31,7 +35,7 @@ function FeatureHowTo() {
                             </svg>
                         </span>
 
-                        <h1 class="text-xl font-semibold text-gray-700 capitalize dark:text-white">Zeige was du kannst</h1>
+                        <h1 class="text-xl font-semibold text-gray-700 dark:text-white">Zeige was du kannst</h1>
 
                         <p class="text-gray-500 dark:text-gray-300">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ab nulla quod dignissimos vel non corrupti doloribus voluptatum eveniet
@@ -45,7 +49,7 @@ function FeatureHowTo() {
                             </svg>
                         </span>
 
-                        <h1 class="text-xl font-semibold text-gray-700 capitalize dark:text-white">Finde deinen Lernpartner</h1>
+                        <h1 class="text-xl font-semibold text-gray-700 dark:text-white">Finde deinen Lernpartner</h1>
 
                         <p class="text-gray-500 dark:text-gray-300">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ab nulla quod dignissimos vel non corrupti doloribus voluptatum eveniet
