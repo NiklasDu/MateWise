@@ -10,12 +10,12 @@ function Navbar() {
     <>
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link to="/" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="logo.png" class="h-8" alt="MateWise Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">MateWise</span>
-        </a>
+        </Link>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button type="button" class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800">Anmelden</button>
+            <Link to="/login" class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800">Anmelden</Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
