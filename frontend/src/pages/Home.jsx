@@ -1,9 +1,13 @@
 import React from 'react';
 import Hero from '../components/Hero';
+import CtaHome from '../components/CtaHome';
 
 function Home() {
   return (
-    <Hero />
+    <>
+      <Hero />
+      <CtaHome /> 
+    </>
   );
 }
 

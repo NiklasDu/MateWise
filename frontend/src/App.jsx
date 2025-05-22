@@ -1,5 +1,6 @@
 import './App.css'
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Matching from './pages/Matching';
 import Dashboard from './pages/Dashboard';
@@ -14,6 +15,7 @@ function App() {
         <Route path="/matching" element={<Matching />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes> 
+      <Footer />
     </>
        
   );
