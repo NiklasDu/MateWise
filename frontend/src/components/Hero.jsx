@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Hero() {
     return (
         <section className="bg-white dark:bg-gray-900">
@@ -10,12 +12,12 @@ function Hero() {
                     Tausche 30 Minuten Klavier lernen gegen 30 Minuten Tanzen beibringen.
                 </p>
                 <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-                    <a href="#" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                    <Link to="/login" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                         Jetzt Anmelden
-                    </a>  
+                    </Link>  
                 </div>
                 <div className="px-6">
-                    <img src="hero_picture.jpg" alt="People Learning" className="w-full max-w-xl mx-auto rounded-lg shadow-lg object-cover" />
+                    <img src="hero_picture.jpg" alt="People Learning" className="w-full max-w-2xl mx-auto rounded-lg shadow-lg object-cover" />
                 </div>
             </div>
         </section>
