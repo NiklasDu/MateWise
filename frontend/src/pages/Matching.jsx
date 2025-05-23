@@ -1,5 +1,11 @@
+import MatchingHero from "../components/MatchingHero";
+
 function Matching() {
-  return <h1>Matching...</h1>;
+  return (
+      <>
+        <MatchingHero />
+      </>
+  )
 }
 
 export default Matching;
