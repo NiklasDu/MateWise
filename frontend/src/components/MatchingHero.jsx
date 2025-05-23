@@ -12,7 +12,7 @@ function MatchingHero () {
                 </div>
                 <div className="py-6">
                     <form className="max-w-sm mx-auto">
-                    <label for="category" className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">Oberkategorie:</label>
+                    <label for="category" className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">Kategorie:</label>
                     <select id="category" className="bg-gray-50 border focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500">
 
                         <option>Musik</option>
@@ -20,7 +20,7 @@ function MatchingHero () {
                         <option>Sport</option>
                         <option>Schule</option>
                     </select>
-                    <label for="sub-category" className="block mb-2 text-xl font-medium pt-4 text-gray-900 dark:text-white">Unterkategorie:</label>
+                    <label for="sub-category" className="block mb-2 text-xl font-medium pt-4 text-gray-900 dark:text-white">Bereich:</label>
                     <select id="sub-category" className="bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500">
 
                         <option> --</option>
