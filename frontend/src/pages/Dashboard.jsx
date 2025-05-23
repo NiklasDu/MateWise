@@ -1,5 +1,13 @@
+import MessagesWindow from "../components/MessagesWindow";
+import DashboardHero from "../components/DashboardHero";
+
 function Dashboard() {
-  return <h1>Dashboard...</h1>;
+  return (
+    <>
+      <DashboardHero />
+      <MessagesWindow />
+    </>
+  )
 }
 
 export default Dashboard;
