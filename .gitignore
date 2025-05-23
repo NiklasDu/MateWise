@@ -1,67 +1,34 @@
-# Byte-compiled / optimized / DLL files
+# Root: globale Ausschlüsse
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Distribution / packaging
-build/
-dist/
-*.egg-info/
-
-# macOS-Systemdateien
-.DS_Store
-
-# Virtual environments
-.venv/
-.env/
-
-# PyInstaller
-*.spec
-
-# Logs
 *.log
+*.sqlite3
+.env
+*.env
+*.DS_Store
 
-# IDEs/Editoren
+# Python virtual environment
+venv/
+.venv/
+
+# VSCode & IDE-Dateien
 .vscode/
 .idea/
-*.sublime-project
-*.sublime-workspace
 
-# Test-/Debug-Dateien
-*.bak
-*.tmp
+# Backend-spezifisch
+/backend/__pycache__/
+/backend/app/__pycache__/
+/backend/app/**/__pycache__/
 
-# Images, falls nicht versioniert
-*.jpg
-*.jpeg
-
-*.gif
-
-# Output-Dateien
-*.exe
-*.app
-
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Node/React (Frontend)
+frontend/node_modules/
+frontend/build/
+frontend/.env
+frontend/.DS_Store
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.parcel-cache/
+frontend/.next/
+frontend/.turbo/
+frontend/dist/
