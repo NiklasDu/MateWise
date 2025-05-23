@@ -5,9 +5,9 @@ function MessagesWindow () {
         <section class="bg-white dark:bg-gray-900">
             <div className="container px-4 mx-auto max-w-screen-xl py-10">
                 <div class="flex items-center gap-x-3">
-                    <h2 class="text-lg font-medium text-gray-800 dark:text-white">Nachrichten</h2>
+                    <h2 class="text-3xl font-medium text-gray-800 dark:text-white">Nachrichten</h2>
 
-                    <span class="px-3 py-1 text-xs text-emerald-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-emerald-400">0 neue</span>
+                    <span class="px-3 py-1 text-sm text-emerald-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-emerald-400">0 neue</span>
                 </div>
 
                 <div class="flex flex-col mt-6">
@@ -50,7 +50,6 @@ function MessagesWindow () {
                                                     <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
 
                                                     <div class="flex items-center gap-x-2">
-                                                        <img class="object-cover w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt=""/>
                                                         <div>
                                                             <h2 class="font-medium text-gray-800 dark:text-white ">Arthur Melo</h2>
                                                         </div>
@@ -94,7 +93,6 @@ function MessagesWindow () {
                                                     <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
 
                                                     <div class="flex items-center gap-x-2">
-                                                        <img class="object-cover w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt=""/>
                                                         <div>
                                                             <h2 class="font-medium text-gray-800 dark:text-white ">Arthur Melo</h2>
                                                         </div>
@@ -138,7 +136,6 @@ function MessagesWindow () {
                                                     <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
 
                                                     <div class="flex items-center gap-x-2">
-                                                        <img class="object-cover w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt=""/>
                                                         <div>
                                                             <h2 class="font-medium text-gray-800 dark:text-white ">Arthur Melo</h2>
                                                         </div>
@@ -182,7 +179,6 @@ function MessagesWindow () {
                                                     <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
 
                                                     <div class="flex items-center gap-x-2">
-                                                        <img class="object-cover w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt=""/>
                                                         <div>
                                                             <h2 class="font-medium text-gray-800 dark:text-white ">Arthur Melo</h2>
                                                         </div>
@@ -226,7 +222,6 @@ function MessagesWindow () {
                                                     <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
 
                                                     <div class="flex items-center gap-x-2">
-                                                        <img class="object-cover w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt=""/>
                                                         <div>
                                                             <h2 class="font-medium text-gray-800 dark:text-white ">Arthur Melo</h2>
                                                         </div>
