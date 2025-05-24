@@ -8,6 +8,7 @@ function RegisterForm() {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
