@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 
 class SkillOut(BaseModel):
@@ -8,6 +8,10 @@ class SkillOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
 
 class UserBase(BaseModel):
     username: str
