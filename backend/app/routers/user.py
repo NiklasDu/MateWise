@@ -27,7 +27,7 @@ def register_user(user: user_schema.UserCreate, db: Session = Depends(get_db)):
         username=user.username,
         email=user.email,
         password=hashed_pw,
-        status=user.status
+        online=False
     )
 
     db.add(new_user)

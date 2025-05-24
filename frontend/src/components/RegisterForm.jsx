@@ -64,11 +64,13 @@ function RegisterForm() {
           Erstelle dir hier ein Konto
         </p>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="w-full mt-4">
             <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:text-white dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-emerald-400 dark:focus:border-emerald-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-emerald-300"
-              type="username"
+              type="text"
               placeholder="Benutzername"
               aria-label="User Name"
             />
@@ -76,33 +78,47 @@ function RegisterForm() {
 
           <div className="w-full mt-4">
             <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:text-white dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-emerald-400 dark:focus:border-emerald-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-emerald-300"
               type="email"
               placeholder="Email Adresse"
-              aria-label="Email Address"
+              aria-label="Email Adresse"
             />
           </div>
 
           <div className="w-full mt-4">
             <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:text-white dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-emerald-400 dark:focus:border-emerald-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-emerald-300"
               type="password"
               placeholder="Passwort"
               aria-label="Password"
+              required
             />
           </div>
 
           <div className="w-full mt-4">
             <input
+              value={passwordRepeat}
+              onChange={(e) => setPasswordRepeat(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:text-white dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-emerald-400 dark:focus:border-emerald-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-emerald-300"
               type="password"
               placeholder="Passwort wiederholen"
               aria-label="Password"
+              required
             />
           </div>
 
+          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {success && <p className="text-green-500 mt-2">{success}</p>}
+
           <div className="flex items-center justify-center mt-4">
-            <button className="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500 rounded-lg hover:bg-emerald-400 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-50">
+            <button
+              type="submit"
+              className="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500 rounded-lg hover:bg-emerald-400 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-50"
+            >
               Registrieren
             </button>
           </div>

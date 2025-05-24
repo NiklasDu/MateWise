@@ -16,7 +16,7 @@ class UserLogin(BaseModel):
 class UserBase(BaseModel):
     username: str
     email: str
-    status: Optional[str] = "offline"
+    online: Optional[bool] = False
 
 class UserCreate(UserBase):
     password: str
