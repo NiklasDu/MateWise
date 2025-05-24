@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -13,7 +15,7 @@ function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    logout();
     setIsLoggedIn(false);
     navigate("/");
   };
