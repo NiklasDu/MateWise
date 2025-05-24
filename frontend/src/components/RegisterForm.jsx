@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function RegisterForm() {
@@ -40,6 +40,8 @@ function RegisterForm() {
       setEmail("");
       setPassword("");
       setPasswordRepeat("");
+
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }

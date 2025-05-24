@@ -1,6 +1,43 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setError(null);
+
+    try {
+      // Beispiel-API-Call an dein Backend (z.B. http://localhost:3000/users/login)
+      const response = await fetch("http://localhost:8000/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        // Fehler beim Login
+        const data = await response.json();
+        setError(data.message || "Login fehlgeschlagen");
+        return;
+      }
+
+      const data = await response.json();
+      // z.B. Token speichern, User-Daten verarbeiten
+      localStorage.setItem("token", data.token);
+
+      // Nach Login weiterleiten
+      navigate("/dashboard");
+    } catch (err) {
+      setError("Serverfehler. Bitte später versuchen.");
+    }
+  };
+
   return (
     <div className="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
       <div className="px-6 py-4">
@@ -20,13 +57,16 @@ function LoginForm() {
           Melde dich hier an
         </p>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="w-full mt-4">
             <input
               className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:text-white dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-emerald-400 dark:focus:border-emerald-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-emerald-300"
               type="email"
               placeholder="Email Adresse"
               aria-label="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -36,8 +76,17 @@ function LoginForm() {
               type="password"
               placeholder="Passwort"
               aria-label="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
+
+          {error && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+              {error}
+            </p>
+          )}
 
           <div className="flex items-center justify-between mt-4">
             <Link
@@ -56,7 +105,7 @@ function LoginForm() {
 
       <div className="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700">
         <span className="text-sm text-gray-600 dark:text-gray-200">
-          Noch kein Konto?{" "}
+          Noch kein Konto?
         </span>
 
         <Link
