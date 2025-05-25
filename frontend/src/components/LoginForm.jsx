@@ -11,30 +11,28 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setError(null);
 
     try {
       const response = await fetch("http://localhost:8000/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // <- wichtig!
         body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
-        // Fehler beim Login
         const data = await response.json();
         setError(data.message || "Login fehlgeschlagen");
         return;
       }
 
-      const data = await response.json();
-      // z.B. Token speichern, User-Daten verarbeiten
-      localStorage.setItem("token", data.token);
-
-      login({ email: data.email, id: data.id });
-
-      // Nach Login weiterleiten
+      // Userdaten nach erfolgreichem Login holen
+      const userResponse = await fetch("http://localhost:8000/users/me", {
+        credentials: "include",
+      });
+      const userData = await userResponse.json();
+      login(userData);
       navigate("/dashboard");
     } catch (err) {
       setError("Serverfehler. Bitte später versuchen.");

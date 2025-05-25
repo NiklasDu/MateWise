@@ -3,25 +3,41 @@ import { createContext, useContext, useState, useEffect } from "react";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null); // z. B. { id: 1, name: 'Anna' }
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Beim ersten Laden prüfen, ob schon ein Token da ist
-    const token = localStorage.getItem("token");
-    if (token) {
-      // Optional: Nutzerdaten aus dem Token extrahieren (z.B. mit JWT) oder Backend-Abfrage
-      // Hier als einfaches Beispiel ein Dummy-Objekt:
-      setUser({ token }); // Du kannst auch z. B. ID, Email etc. speichern
+    // Beim ersten Rendern: /me aufrufen, um eingeloggten Benutzer zu holen
+    async function fetchUser() {
+      try {
+        const response = await fetch("http://localhost:8000/users/me", {
+          credentials: "include", // wichtig für Cookies
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Fehler beim Abrufen des Benutzers", error);
+        setUser(null);
+      }
     }
+
+    fetchUser();
   }, []);
 
   const login = (userData) => {
-    setUser(userData);
+    setUser(userData); // Nur im Zustand merken – keine Speicherung im localStorage
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await fetch("http://localhost:8000/users/logout", {
+      method: "POST",
+      credentials: "include",
+    });
     setUser(null);
-    localStorage.removeItem("token");
   };
 
   return (

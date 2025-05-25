@@ -1,4 +1,9 @@
+import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+
 function DashboardHero() {
+  const { user } = useAuth();
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="relative h-[400px] bg-white dark:bg-gray-900 max-w-screen-xl mx-auto">
@@ -15,7 +20,9 @@ function DashboardHero() {
           <h1 class="text-5xl font-bold leading-tight mb-4">
             Willkommen zurück,
           </h1>
-          <h class="text-5xl font-bold leading-tight mb-4">Daniel</h>
+          <h2 class="text-5xl font-bold leading-tight mb-4">
+            {user.username || "Gast"}
+          </h2>
         </div>
       </div>
     </section>

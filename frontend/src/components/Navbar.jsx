@@ -4,19 +4,12 @@ import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // true, wenn token da
-  }, []);
-
-  const handleLogout = () => {
-    logout();
-    setIsLoggedIn(false);
+  const handleLogout = async () => {
+    await logout();
     navigate("/");
   };
 
@@ -30,8 +23,9 @@ function Navbar() {
               MateWise
             </span>
           </Link>
+
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            {isLoggedIn ? (
+            {user ? (
               <button
                 onClick={handleLogout}
                 className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
