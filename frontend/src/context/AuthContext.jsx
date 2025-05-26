@@ -5,26 +5,26 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    // Beim ersten Rendern: /me aufrufen, um eingeloggten Benutzer zu holen
-    async function fetchUser() {
-      try {
-        const response = await fetch("http://localhost:8000/users/me", {
-          credentials: "include", // wichtig für Cookies
-        });
+  const fetchUser = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/users/me", {
+        credentials: "include", // wichtig für Cookies
+      });
 
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data);
-        } else {
-          setUser(null);
-        }
-      } catch (error) {
-        console.error("Fehler beim Abrufen des Benutzers", error);
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      } else {
         setUser(null);
       }
+    } catch (error) {
+      console.error("Fehler beim Abrufen des Benutzers", error);
+      setUser(null);
     }
+  };
 
+  useEffect(() => {
+    // Beim ersten Rendern: /me aufrufen, um eingeloggten Benutzer zu holen
     fetchUser();
   }, []);
 
@@ -41,7 +41,9 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, refreshUser: fetchUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

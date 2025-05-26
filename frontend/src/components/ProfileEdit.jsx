@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
 function ProfileEdit() {
-  const { user, logout } = useAuth(); // User-Daten aus Context holen
+  const { user, logout, refreshUser } = useAuth(); // User-Daten aus Context holen
 
   // Lokale States für die Eingabefelder
   const [username, setUsername] = useState("");
@@ -47,6 +47,7 @@ function ProfileEdit() {
           }
           return;
         } else {
+          await refreshUser();
           alert("Profil aktualisiert.");
         }
       }
@@ -94,6 +95,7 @@ function ProfileEdit() {
             );
           }
         } else {
+          await refreshUser();
           alert("Passwort wurde geändert.");
           setPasswordOld("");
           setPasswordNew1("");
