@@ -89,6 +89,38 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
 def read_current_user(current_user: user_model.User = Depends(get_current_user)):
     return current_user
 
+@router.patch("/me", response_model=user_schema.UserOut)
+def update_user_profile(
+    update_data: user_schema.UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: user_model.User = Depends(get_current_user),
+):
+    if update_data.email:
+        current_user.email = update_data.email
+    if update_data.username:
+        current_user.username = update_data.username
+
+    db.commit()
+    db.refresh(current_user)
+    return current_user
+
+
+@router.post("/change-password")
+def change_password(
+    password_data: user_schema.ChangePassword,
+    db: Session = Depends(get_db),
+    current_user: user_model.User = Depends(get_current_user),
+):
+    if not verify_password(password_data.old_password, current_user.password):
+        raise HTTPException(status_code=400, detail="Falsches Passwort")
+
+    if password_data.new_password != password_data.confirm_password:
+        raise HTTPException(status_code=400, detail="Neue Passwörter stimmen nicht überein")
+
+    current_user.password = hash_password(password_data.new_password)
+    db.commit()
+    return {"message": "Passwort erfolgreich geändert"}
+
 
 @router.delete("/me")
 def delete_own_user(request: Request, db: Session = Depends(get_db)):

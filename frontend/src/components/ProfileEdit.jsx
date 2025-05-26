@@ -19,10 +19,90 @@ function ProfileEdit() {
     }
   }, [user]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Hier kannst du die Logik zum Speichern der Änderungen ergänzen
-    console.log({ username, email, passwordOld, passwordNew1, passwordNew2 });
+
+    // 1. Nutzerprofil aktualisieren (Name oder Email)
+    try {
+      const updateData = {};
+      if (username !== user.username) updateData.username = username;
+      if (email !== user.email) updateData.email = email;
+
+      if (Object.keys(updateData).length > 0) {
+        const response = await fetch("http://localhost:8000/users/me", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(updateData),
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          if (typeof data.detail === "string") {
+            alert("Fehler beim Aktualisieren: " + data.detail);
+          } else {
+            alert("Fehler beim Aktualisieren: " + JSON.stringify(data.detail));
+          }
+          return;
+        } else {
+          alert("Profil aktualisiert.");
+        }
+      }
+    } catch (err) {
+      console.error("Fehler beim Aktualisieren des Profils:", err);
+    }
+
+    // 2. Passwort ändern (wenn gewünscht)
+    const wantsPasswordChange = passwordOld || passwordNew1 || passwordNew2;
+
+    if (wantsPasswordChange) {
+      if (!passwordOld || !passwordNew1 || !passwordNew2) {
+        alert(
+          "Bitte alle Passwortfelder ausfüllen, um das Passwort zu ändern."
+        );
+        return;
+      }
+
+      if (passwordNew1 !== passwordNew2) {
+        alert("Die neuen Passwörter stimmen nicht überein.");
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:8000/users/change-password", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            old_password: passwordOld,
+            new_password: passwordNew1,
+            confirm_password: passwordNew2,
+          }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          if (typeof data.detail === "string") {
+            alert("Fehler beim Passwort ändern: " + data.detail);
+          } else {
+            alert(
+              "Fehler beim Passwort ändern: " + JSON.stringify(data.detail)
+            );
+          }
+        } else {
+          alert("Passwort wurde geändert.");
+          setPasswordOld("");
+          setPasswordNew1("");
+          setPasswordNew2("");
+        }
+      } catch (error) {
+        console.error("Fehler beim Passwortwechsel:", error);
+      }
+    }
   };
 
   const handleDeleteAccount = async () => {
@@ -68,6 +148,7 @@ function ProfileEdit() {
             type="text"
             id="username"
             value={username}
+            onChange={(e) => setUsername(e.target.value)}
             class="shadow-xs bg-gray-50 border focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
             placeholder="MrDaniel"
             required
@@ -84,6 +165,7 @@ function ProfileEdit() {
             type="email"
             id="email"
             value={email}
+            onChange={(e) => setEmail(e.target.value)}
             class="shadow-xs bg-gray-50 border focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
             required
           />
@@ -98,10 +180,9 @@ function ProfileEdit() {
           <input
             type="password"
             id="password_old"
-            value=""
+            value={passwordOld}
             onChange={(e) => setPasswordOld(e.target.value)}
             class="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-            required
           />
         </div>
         <div class="mb-5">
@@ -114,10 +195,9 @@ function ProfileEdit() {
           <input
             type="password"
             id="password_new_1"
-            value=""
+            value={passwordNew1}
             onChange={(e) => setPasswordNew1(e.target.value)}
             class="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-            required
           />
         </div>
         <div class="mb-5">
@@ -130,10 +210,9 @@ function ProfileEdit() {
           <input
             type="password"
             id="password_new_2"
-            value=""
+            value={passwordNew2}
             onChange={(e) => setPasswordNew2(e.target.value)}
             class="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-            required
           />
         </div>
         <button

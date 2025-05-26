@@ -42,7 +42,7 @@ function RegisterForm() {
       setPassword("");
       setPasswordRepeat("");
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setError(err.message);
     }
