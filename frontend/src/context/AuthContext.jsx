@@ -4,6 +4,7 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchUser = async () => {
     try {
@@ -20,6 +21,8 @@ export function AuthProvider({ children }) {
     } catch (error) {
       console.error("Fehler beim Abrufen des Benutzers", error);
       setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,7 +45,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, refreshUser: fetchUser }}
+      value={{ user, login, logout, loading, refreshUser: fetchUser }}
     >
       {children}
     </AuthContext.Provider>

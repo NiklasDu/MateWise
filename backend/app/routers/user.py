@@ -55,7 +55,7 @@ def login_user(user: user_schema.UserLogin, db: Session = Depends(get_db)):
         value=token,
         httponly=True,
         secure=False,   # True bei HTTPS
-        samesite="Lax",
+        samesite="None",
         max_age=60 * 60 * 24,
         path="/"
     )
