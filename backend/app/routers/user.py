@@ -88,3 +88,24 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
 @router.get("/me", response_model=user_schema.UserOut)
 def read_current_user(current_user: user_model.User = Depends(get_current_user)):
     return current_user
+
+
+@router.delete("/me")
+def delete_own_user(request: Request, db: Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(status_code=401, detail="Nicht authentifiziert")
+
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = int(payload.get("sub"))
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Ungültiger Token")
+
+    user = db.query(user_model.User).filter(user_model.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Benutzer nicht gefunden")
+
+    db.delete(user)
+    db.commit()
+    return {"message": "Benutzerkonto gelöscht"}

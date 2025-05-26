@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
 function ProfileEdit() {
-  const { user } = useAuth(); // User-Daten aus Context holen
+  const { user, logout } = useAuth(); // User-Daten aus Context holen
 
   // Lokale States für die Eingabefelder
   const [username, setUsername] = useState("");
@@ -23,6 +23,32 @@ function ProfileEdit() {
     e.preventDefault();
     // Hier kannst du die Logik zum Speichern der Änderungen ergänzen
     console.log({ username, email, passwordOld, passwordNew1, passwordNew2 });
+  };
+
+  const handleDeleteAccount = async () => {
+    if (
+      confirm(
+        "Bist du sicher, dass du dein Konto löschen möchtest? Das kann nicht rückgängig gemacht werden."
+      )
+    ) {
+      try {
+        const response = await fetch("http://localhost:8000/users/me", {
+          method: "DELETE",
+          credentials: "include", // wichtig, damit der Token mitgeschickt wird
+        });
+
+        if (response.ok) {
+          await logout();
+          alert("Dein Konto wurde gelöscht.");
+          window.location.href = "/"; // oder Logout-Funktion
+        } else {
+          const data = await response.json();
+          alert("Fehler beim Löschen: " + data.detail);
+        }
+      } catch (error) {
+        console.error("Fehler beim Löschen des Kontos:", error);
+      }
+    }
   };
 
   return (
@@ -134,6 +160,7 @@ function ProfileEdit() {
         </button>
         <button
           type="button"
+          onClick={handleDeleteAccount}
           class="text-white bg-red-600 hover:bg-red-800 mt-3 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
         >
           Konto löschen
