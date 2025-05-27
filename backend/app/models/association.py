@@ -7,3 +7,17 @@ user_skills = Table(
     Column("user_id", Integer, ForeignKey("users.id"), primary_key=True),
     Column("skill_id", Integer, ForeignKey("skills.id"), primary_key=True)
 )
+
+user_skills_learn = Table(
+    "user_skills_learn",
+    Base.metadata,
+    Column("user_id", Integer, ForeignKey("users.id"), primary_key=True),
+    Column("skill_id", Integer, ForeignKey("skills.id"), primary_key=True)
+)
+
+user_skills_teach = Table(
+    "user_skills_teach",
+    Base.metadata,
+    Column("user_id", Integer, ForeignKey("users.id"), primary_key=True),
+    Column("skill_id", Integer, ForeignKey("skills.id"), primary_key=True)
+)

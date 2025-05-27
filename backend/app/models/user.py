@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 from app.database import Base 
 from .association import user_skills
+from app.models.association import user_skills_learn, user_skills_teach
 
 class User(Base):
     __tablename__ = "users" 
@@ -14,3 +15,14 @@ class User(Base):
 
     # Beziehung zu Skills: Ein User kann viele Skills haben
     skills = relationship("Skill", secondary=user_skills, back_populates="users")
+
+    skills_to_learn = relationship(
+        "Skill",
+        secondary=user_skills_learn,
+        back_populates="learners"
+    )
+    skills_to_teach = relationship(
+        "Skill",
+        secondary=user_skills_teach,
+        back_populates="teachers"
+    )
