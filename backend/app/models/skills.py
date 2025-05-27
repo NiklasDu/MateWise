@@ -4,11 +4,10 @@ from app.database import Base
 from .association import user_skills
 
 class Skill(Base):
-    __tablename__ = "skills" 
-
+    __tablename__ = "skills"
     id = Column(Integer, primary_key=True, index=True)
-    skill = Column(String, index=True)  # Name der Fähigkeit
-    kategorie = Column(String)           # Kategorie, z.B. „Programmiersprache“
-    user_id = Column(Integer, ForeignKey("users.id"))  # Verknüpfung zum User
+    skill_name = Column(String, unique=True, index=True)
+    category_id = Column(Integer, ForeignKey("categories.id"))
 
-    user = relationship("User", secondary=user_skills, back_populates="skills")  # Zugehöriger User
+    category = relationship("Category", back_populates="skills")
+    users = relationship("User", secondary="user_skills", back_populates="skills")

@@ -13,4 +13,4 @@ class User(Base):
     online = Column(Boolean, default=False)             # Online (True) / Offline (False)
 
     # Beziehung zu Skills: Ein User kann viele Skills haben
-    skills = relationship("Skill", secondary=user_skills, back_populates="user")
+    skills = relationship("Skill", secondary=user_skills, back_populates="users")
