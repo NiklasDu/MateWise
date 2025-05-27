@@ -135,7 +135,7 @@ function ProfileEdit() {
 
   return (
     <section className="bg-white dark:bg-gray-900">
-      <h1 className="max-w-md mx-auto text-4xl dark:text-white mb-4 pt-4">
+      <h1 className="max-w-md mx-auto mb-4 pt-4 text-2xl font-semibold text-gray-700 dark:text-white">
         Profil anpassen
       </h1>
       <form onSubmit={handleSubmit} class="max-w-md mx-auto pb-5">

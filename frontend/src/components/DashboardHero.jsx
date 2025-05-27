@@ -6,7 +6,7 @@ function DashboardHero() {
 
   return (
     <section className="bg-white dark:bg-gray-900">
-      <div className="relative h-[400px] bg-white dark:bg-gray-900 max-w-screen-xl mx-auto">
+      <div className="relative h-[400px] bg-white dark:bg-gray-900 max-w-screen-lg mx-auto">
         <div class="absolute inset-0">
           <img
             src="welcome_pic.jpg"
