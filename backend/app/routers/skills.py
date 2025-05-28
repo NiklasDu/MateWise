@@ -2,27 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import skills as skill_model, user as user_model, categories as category_model
-from app.schemas.skills import SkillSimple, SkillsGroupedByCategory, SkillWithCategory
+from app.schemas.skills import SkillSimple, SkillsGroupedByCategory, SkillWithCategory, SaveSkillsRequest
 from app.routers.user import get_current_user
 from typing import List
 
 router = APIRouter(prefix="/skills", tags=["Skills"])
-
-@router.get("/", response_model=List[SkillWithCategory])
-def get_all_skills(db: Session = Depends(get_db)):
-    skills = db.query(skill_model.Skill).all()
-    return skills
-
-@router.post("/select")
-def select_skills(
-    skill_ids: List[int],
-    db: Session = Depends(get_db),
-    current_user: user_model.User = Depends(get_current_user)
-):
-    skills = db.query(skill_model.Skill).filter(skill_model.Skill.id.in_(skill_ids)).all()
-    current_user.skills = skills
-    db.commit()
-    return {"message": "Skills erfolgreich gespeichert"}
 
 @router.get("/me", response_model=List[SkillWithCategory])
 def get_my_skills(
@@ -59,3 +43,15 @@ def set_skills_to_teach(skill_ids: list[int], db: Session = Depends(get_db), cur
     current_user.skills_to_teach = db.query(skill_model.Skill).filter(skill_model.Skill.id.in_(skill_ids)).all()
     db.commit()
     return {"message": "Lehr-Skills aktualisiert"}
+
+@router.post("/save-skills")
+def save_skills(payload: SaveSkillsRequest, db: Session = Depends(get_db), current_user: user_model.User = Depends(get_current_user)):
+    learn_skills = db.query(skill_model.Skill).filter(skill_model.Skill.id.in_(payload.learn_skills)).all()
+    teach_skills = db.query(skill_model.Skill).filter(skill_model.Skill.id.in_(payload.teach_skills)).all()
+
+    current_user.skills_to_learn = learn_skills
+    current_user.skills_to_teach = teach_skills
+
+    db.commit()
+
+    return {"message": "Skills erfolgreich gespeichert."}

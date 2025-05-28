@@ -28,3 +28,7 @@ class SkillSimple(BaseModel):
 class SkillsGroupedByCategory(BaseModel):
     category: str
     skills: List[SkillSimple]
+
+class SaveSkillsRequest(BaseModel):
+    learn_skills: List[int]
+    teach_skills: List[int]
