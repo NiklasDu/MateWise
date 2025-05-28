@@ -61,7 +61,7 @@ export default function DashboardSkillModal() {
         return res.json();
       })
       .then((data) => {
-        console.log("Skills erfolgreich gespeichert:", data);
+        alert("Skills erfolgreich gespeichert.", data);
         setOpenModal(null); // Modal schließen
       })
       .catch((error) => {
