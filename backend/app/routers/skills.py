@@ -8,12 +8,15 @@ from typing import List
 
 router = APIRouter(prefix="/skills", tags=["Skills"])
 
-@router.get("/me", response_model=List[SkillWithCategory])
-def get_my_skills(
+@router.get("/my-skill-ids")
+def get_my_skill_ids(
     db: Session = Depends(get_db),
     current_user: user_model.User = Depends(get_current_user)
 ):
-    return current_user.skills
+    return {
+        "learn": [skill.id for skill in current_user.skills_to_learn],
+        "teach": [skill.id for skill in current_user.skills_to_teach]
+    }
 
 # Alle Skills nach Kategorien gruppiert
 @router.get("/by-category", response_model=List[SkillsGroupedByCategory])

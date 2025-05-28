@@ -18,6 +18,18 @@ export default function DashboardSkillModal() {
           setSkillsByCategory(data);
         })
         .catch((err) => console.error("Fehler beim Laden der Skills:", err));
+
+      fetch("http://localhost:8000/skills/my-skill-ids", {
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setSelectedLearnSkills(data.learn);
+          setSelectedTeachSkills(data.teach);
+        })
+        .catch((err) =>
+          console.error("Fehler beim Laden der Nutzerskills:", err)
+        );
     }
   }, [openModal]);
 
