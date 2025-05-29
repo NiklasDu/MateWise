@@ -109,7 +109,7 @@ export default function DashboardSkillModal() {
             {getSkillNamesFromIds(selectedLearnSkills).map((name) => (
               <li
                 key={name}
-                className="px-3 py-2 text-xs font-medium text-indigo-500 bg-indigo-100 rounded-full dark:text-indigo-300 dark:bg-gray-700"
+                className="px-3 py-2 text-xs font-medium text-orange-500 bg-orange-100 rounded-full dark:text-orange-300 dark:bg-gray-700"
               >
                 {name}
               </li>
@@ -117,9 +117,15 @@ export default function DashboardSkillModal() {
           </ul>
           <button
             onClick={() => setOpenModal("learn")}
-            className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+            className="text-white bg-slate-500 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
           >
-            Neue Lernskills auswählen
+            Skills auswählen
+          </button>
+          <button
+            onClick={handleSaveSkills}
+            className="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+          >
+            Skills speichern
           </button>
           <h3 className="text-lg font-semibold pt-3 text-gray-700 dark:text-white">
             Diese Skills kann ich gut:
@@ -136,9 +142,15 @@ export default function DashboardSkillModal() {
           </ul>
           <button
             onClick={() => setOpenModal("teach")}
-            className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+            className="text-white bg-slate-500 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
           >
-            Neue Beibringskills einfügen
+            Skills auswählen
+          </button>
+          <button
+            onClick={handleSaveSkills}
+            className="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+          >
+            Skills speichern
           </button>
 
           {/* Modal */}
@@ -204,14 +216,6 @@ export default function DashboardSkillModal() {
               </div>
             </div>
           )}
-          <div>
-            <button
-              onClick={handleSaveSkills}
-              className="text-white bg-yellow-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-            >
-              Skills speichern
-            </button>
-          </div>
         </div>
       </div>
     </section>
