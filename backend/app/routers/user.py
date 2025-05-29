@@ -9,6 +9,8 @@ from app.utils.jwt import create_access_token, ALGORITHM, SECRET_KEY
 from fastapi.responses import JSONResponse
 from jose import JWTError, jwt
 
+from typing import List
+
 router = APIRouter(prefix="/users", tags=["Users"])
 
 # GET /users → Alle Benutzer abrufen
@@ -16,6 +18,11 @@ router = APIRouter(prefix="/users", tags=["Users"])
 def get_users(db: Session = Depends(get_db)):
     users = db.query(user_model.User).all()
     return users
+
+# GET All Users with Username and Skills
+@router.get("/all", response_model=List[user_schema.UserWithSkills])
+def get_all_users(db: Session = Depends(get_db)):
+    return db.query(user_model.User).all()
 
 # POST /users/register → Neuen Benutzer erstellen
 @router.post("/register", response_model=user_schema.UserOut)

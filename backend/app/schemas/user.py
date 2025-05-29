@@ -36,3 +36,19 @@ class ChangePassword(BaseModel):
     old_password: str
     new_password: str
     confirm_password: str
+
+class SkillSimple(BaseModel):
+    id: int
+    skill_name: str
+
+    class Config:
+        orm_mode = True
+
+class UserWithSkills(BaseModel):
+    id: int
+    username: str
+    skills_to_learn: List[SkillSimple] = []
+    skills_to_teach: List[SkillSimple] = []
+
+    class Config:
+        orm_mode = True

@@ -1,31 +1,60 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function MatchingCards() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/users/all", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch((err) => console.error("Fehler beim Laden der Nutzer:", err));
+  }, []);
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 place-items-center">
-          {Array.from({ length: 20 }).map((_) => (
-            <div class="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center">
+          {users.map((user) => (
+            <div
+              key={user.id}
+              class="max-w-sm w-full h-[585px] flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
+            >
               <a href="#">
-                <img class="rounded-t-lg" src="avatar_icon.png" alt="" />
+                <img
+                  class="rounded-t-lg max-h-[400px]"
+                  src="avatar_icon.png"
+                  alt=""
+                />
               </a>
-              <div class="p-5">
+              <div class="p-5 flex flex-col justify-start gap-y-3 flex-grow">
                 <a href="#">
                   <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Moritz Zimmermann
+                    {user.username.charAt(0).toUpperCase() +
+                      user.username.slice(1)}
                   </h5>
                 </a>
-                <div className="flex flex-wrap gap-2 pb-3">
-                  <p class="px-3 py-1 text-xs text-indigo-400 rounded-full dark:bg-gray-700 bg-indigo-100/60">
-                    Coding
-                  </p>
-                  <p class="px-3 py-1 text-xs text-blue-400 rounded-full dark:bg-gray-700 bg-blue-100/60">
-                    Gitarre
-                  </p>
-                  <p class="px-3 py-1 text-xs text-pink-400 rounded-full dark:bg-gray-700 bg-pink-100/60">
-                    Kochen
-                  </p>
+                <div className="flex flex-wrap justify-start items-start gap-2 pb-3 max-h-[63px] xl:max-h-[150px] overflow-hidden">
+                  {user.skills_to_teach.slice(0, 3).map((skill) => (
+                    <span
+                      key={`teach-${skill.id}`}
+                      className="px-3 py-1 max-w-[95px] lg:max-w-[105px] xl:max-w-none truncate text-xs font-medium text-emerald-600 bg-emerald-100 rounded-full dark:text-emerald-300 dark:bg-gray-700 whitespace-nowrap"
+                    >
+                      {skill.skill_name}
+                    </span>
+                  ))}
+                  {user.skills_to_learn.slice(0, 3).map((skill) => (
+                    <span
+                      key={`learn-${skill.id}`}
+                      className="px-3 py-1 max-w-[95px] lg:max-w-[105px] xl:max-w-none truncate text-xs font-medium text-indigo-600 bg-indigo-100 rounded-full dark:text-indigo-300 dark:bg-gray-700 whitespace-nowrap"
+                    >
+                      {skill.skill_name}
+                    </span>
+                  ))}
                 </div>
                 <a
                   href="#"
