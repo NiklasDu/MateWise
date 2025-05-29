@@ -105,11 +105,11 @@ export default function DashboardSkillModal() {
           <h3 className="text-lg font-semibold text-gray-700 dark:text-white">
             Diese Skills möchte ich lernen:
           </h3>
-          <ul className=" text-gray-700 dark:text-white">
+          <ul className="list-none flex flex-wrap gap-3 text-gray-700 dark:text-white">
             {getSkillNamesFromIds(selectedLearnSkills).map((name) => (
               <li
                 key={name}
-                className="px-3 py-2 text-xs list-none font-medium text-indigo-600 bg-indigo-100 rounded-full dark:text-indigo-300 dark:bg-gray-700"
+                className="px-3 py-2 text-xs font-medium text-indigo-500 bg-indigo-100 rounded-full dark:text-indigo-300 dark:bg-gray-700"
               >
                 {name}
               </li>
@@ -124,11 +124,11 @@ export default function DashboardSkillModal() {
           <h3 className="text-lg font-semibold pt-3 text-gray-700 dark:text-white">
             Diese Skills kann ich gut:
           </h3>
-          <ul className="list-disc list-inside text-gray-700 dark:text-white">
+          <ul className="list-none flex flex-wrap gap-3 text-gray-700 dark:text-white">
             {getSkillNamesFromIds(selectedTeachSkills).map((name) => (
               <li
                 key={name}
-                className="px-3 py-2 text-xs list-none font-medium text-emerald-600 bg-emerald-100 rounded-full dark:text-emerald-300 dark:bg-gray-700"
+                className="px-3 py-2 text-xs font-medium text-emerald-600 bg-emerald-100 rounded-full dark:text-emerald-300 dark:bg-gray-700"
               >
                 {name}
               </li>
