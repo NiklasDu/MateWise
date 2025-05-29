@@ -76,6 +76,7 @@ function Navbar() {
               <li>
                 <Link
                   to="/"
+                  onClick={() => setIsOpen(false)}
                   className={`block py-2 px-3 text-gray-900 rounded-sm ${
                     location.pathname === "/"
                       ? "text-white bg-emerald-700 md:bg-transparent md:text-emerald-700 dark:text-emerald-500"
@@ -88,6 +89,7 @@ function Navbar() {
               <li>
                 <Link
                   to="/dashboard"
+                  onClick={() => setIsOpen(false)}
                   className={`block py-2 px-3 text-gray-900 rounded-sm ${
                     location.pathname === "/dashboard"
                       ? "text-white bg-emerald-700 md:bg-transparent md:text-emerald-700 dark:text-emerald-500"
@@ -100,6 +102,7 @@ function Navbar() {
               <li>
                 <Link
                   to="/matching"
+                  onClick={() => setIsOpen(false)}
                   className={`block py-2 px-3 text-gray-900 rounded-sm  ${
                     location.pathname === "/matching"
                       ? "text-white bg-emerald-700 md:bg-transparent md:text-emerald-700 dark:text-emerald-500"

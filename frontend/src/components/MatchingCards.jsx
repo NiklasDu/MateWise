@@ -171,7 +171,11 @@ function MatchingCards() {
                   </div>
                 )}
                 {/* <!-- Modal footer --> */}
-                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <div class=" p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                  <p className="pb-3">
+                    Du denkst ihr beiden könnt euch gegenseitig etwas
+                    beibringen?!
+                  </p>
                   <button
                     data-modal-hide="medium-modal"
                     type="button"
