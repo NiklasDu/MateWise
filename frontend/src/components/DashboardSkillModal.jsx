@@ -9,29 +9,31 @@ export default function DashboardSkillModal() {
 
   const { user } = useAuth();
 
+  // Lädt alle verfügbaren Skills nach Kategorien
   useEffect(() => {
-    if (openModal) {
-      fetch("http://localhost:8000/skills/by-category")
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Fetched skills:", data);
-          setSkillsByCategory(data);
-        })
-        .catch((err) => console.error("Fehler beim Laden der Skills:", err));
-
-      fetch("http://localhost:8000/skills/my-skill-ids", {
-        credentials: "include",
+    fetch("http://localhost:8000/skills/by-category")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Fetched skills:", data);
+        setSkillsByCategory(data);
       })
-        .then((res) => res.json())
-        .then((data) => {
-          setSelectedLearnSkills(data.learn);
-          setSelectedTeachSkills(data.teach);
-        })
-        .catch((err) =>
-          console.error("Fehler beim Laden der Nutzerskills:", err)
-        );
-    }
-  }, [openModal]);
+      .catch((err) => console.error("Fehler beim Laden der Skills:", err));
+  }, []); // <== nur beim ersten Rendern
+
+  // Lädt die Skills des eingeloggten Nutzers
+  useEffect(() => {
+    fetch("http://localhost:8000/skills/my-skill-ids", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSelectedLearnSkills(data.learn);
+        setSelectedTeachSkills(data.teach);
+      })
+      .catch((err) =>
+        console.error("Fehler beim Laden der Nutzerskills:", err)
+      );
+  }, []);
 
   const handleCheckboxChange = (skillId, mode) => {
     if (mode === "learn") {
@@ -82,6 +84,13 @@ export default function DashboardSkillModal() {
       });
   };
 
+  const getSkillNamesFromIds = (ids) => {
+    const allSkills = skillsByCategory.flatMap((group) => group.skills);
+    return allSkills
+      .filter((skill) => ids.includes(skill.id))
+      .map((skill) => skill.skill_name);
+  };
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="max-w-md mx-auto">
@@ -93,22 +102,44 @@ export default function DashboardSkillModal() {
             Wähle hier aus, welche Skills du lernen möchtest und welche du
             beibringen kannst.
           </p>
-
-          <div className="flex gap-4 pb-6">
-            <button
-              onClick={() => setOpenModal("learn")}
-              className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-            >
-              Skills lernen
-            </button>
-
-            <button
-              onClick={() => setOpenModal("teach")}
-              className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-            >
-              Skills beibringen
-            </button>
-          </div>
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-white">
+            Diese Skills möchte ich lernen:
+          </h3>
+          <ul className=" text-gray-700 dark:text-white">
+            {getSkillNamesFromIds(selectedLearnSkills).map((name) => (
+              <li
+                key={name}
+                className="px-3 py-2 text-xs list-none font-medium text-indigo-600 bg-indigo-100 rounded-full dark:text-indigo-300 dark:bg-gray-700"
+              >
+                {name}
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={() => setOpenModal("learn")}
+            className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+          >
+            Neue Lernskills auswählen
+          </button>
+          <h3 className="text-lg font-semibold pt-3 text-gray-700 dark:text-white">
+            Diese Skills kann ich gut:
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 dark:text-white">
+            {getSkillNamesFromIds(selectedTeachSkills).map((name) => (
+              <li
+                key={name}
+                className="px-3 py-2 text-xs list-none font-medium text-emerald-600 bg-emerald-100 rounded-full dark:text-emerald-300 dark:bg-gray-700"
+              >
+                {name}
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={() => setOpenModal("teach")}
+            className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+          >
+            Neue Beibringskills einfügen
+          </button>
 
           {/* Modal */}
           {openModal && (
@@ -176,7 +207,7 @@ export default function DashboardSkillModal() {
           <div>
             <button
               onClick={handleSaveSkills}
-              className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+              className="text-white bg-yellow-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
             >
               Skills speichern
             </button>
