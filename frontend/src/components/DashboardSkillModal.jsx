@@ -7,11 +7,13 @@ export default function DashboardSkillModal() {
   const [selectedLearnSkills, setSelectedLearnSkills] = useState([]);
   const [selectedTeachSkills, setSelectedTeachSkills] = useState([]);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const { user } = useAuth();
 
   // Lädt alle verfügbaren Skills nach Kategorien
   useEffect(() => {
-    fetch("http://localhost:8000/skills/by-category")
+    fetch(`${API_URL}/skills/by-category`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched skills:", data);
@@ -22,7 +24,7 @@ export default function DashboardSkillModal() {
 
   // Lädt die Skills des eingeloggten Nutzers
   useEffect(() => {
-    fetch("http://localhost:8000/skills/my-skill-ids", {
+    fetch(`${API_URL}/skills/my-skill-ids`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -60,7 +62,7 @@ export default function DashboardSkillModal() {
       teach_skills: selectedTeachSkills,
     };
 
-    fetch("http://localhost:8000/skills/save-skills", {
+    fetch(`${API_URL}/skills/save-skills`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -16,7 +16,7 @@ function App() {
   const isRegisterPage = location.pathname === "/register";
   return (
     <>
-      {!isLoginPage && !isRegisterPage && <Navbar />}
+      {!isRegisterPage && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/matching" element={<Matching />} />

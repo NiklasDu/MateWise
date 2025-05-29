@@ -10,6 +10,8 @@ function RegisterForm() {
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -23,7 +25,7 @@ function RegisterForm() {
     setSuccess(null);
 
     try {
-      const response = await fetch("http://localhost:8000/users/register", {
+      const response = await fetch(`${API_URL}/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

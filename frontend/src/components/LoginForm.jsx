@@ -9,12 +9,14 @@ function LoginForm() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:8000/users/login", {
+      const response = await fetch(`${API_URL}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // <- wichtig!
@@ -28,7 +30,7 @@ function LoginForm() {
       }
 
       // Userdaten nach erfolgreichem Login holen
-      const userResponse = await fetch("http://localhost:8000/users/me", {
+      const userResponse = await fetch(`${API_URL}/users/me`, {
         credentials: "include",
       });
       const userData = await userResponse.json();

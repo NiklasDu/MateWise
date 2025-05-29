@@ -11,6 +11,8 @@ function ProfileEdit() {
   const [passwordNew1, setPasswordNew1] = useState("");
   const [passwordNew2, setPasswordNew2] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // Initialisierung der Formulardaten, sobald user geladen ist
   useEffect(() => {
     if (user) {
@@ -29,7 +31,7 @@ function ProfileEdit() {
       if (email !== user.email) updateData.email = email;
 
       if (Object.keys(updateData).length > 0) {
-        const response = await fetch("http://localhost:8000/users/me", {
+        const response = await fetch(`${API_URL}/users/me`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +74,7 @@ function ProfileEdit() {
       }
 
       try {
-        const res = await fetch("http://localhost:8000/users/change-password", {
+        const res = await fetch(`${API_URL}/users/change-password`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -114,7 +116,7 @@ function ProfileEdit() {
       )
     ) {
       try {
-        const response = await fetch("http://localhost:8000/users/me", {
+        const response = await fetch(`${API_URL}/users/me`, {
           method: "DELETE",
           credentials: "include", // wichtig, damit der Token mitgeschickt wird
         });

@@ -6,8 +6,10 @@ function MatchingCards() {
   const [openModal, setOpenModal] = useState(null);
   const selectedUser = users.find((user) => user.id === openModal);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
-    fetch("http://localhost:8000/users/all", {
+    fetch(`${API_URL}/users/all`, {
       credentials: "include",
     })
       .then((res) => res.json())

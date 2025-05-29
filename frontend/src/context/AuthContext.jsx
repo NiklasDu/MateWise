@@ -6,9 +6,11 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://localhost:8000/users/me", {
+      const response = await fetch(`${API_URL}/users/me`, {
         credentials: "include", // wichtig für Cookies
       });
 
@@ -36,7 +38,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    await fetch("http://localhost:8000/users/logout", {
+    await fetch(`${API_URL}/users/logout`, {
       method: "POST",
       credentials: "include",
     });
