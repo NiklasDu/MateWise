@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-function MatchingCards({ propSkillToTeachId }) {
+function MatchingCards({ propSkillToTeachId, showMatches }) {
   const [users, setUsers] = useState([]);
   const [openModal, setOpenModal] = useState(null);
   const selectedUser = users.find((user) => user.id === openModal);
@@ -13,15 +13,20 @@ function MatchingCards({ propSkillToTeachId }) {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const endpoint = skillToTeachId
-      ? `${API_URL}/users/by-skill?skill_to_teach_id=${skillToTeachId}`
-      : `${API_URL}/users/all`;
+    let endpoint;
+    if (showMatches) {
+      endpoint = `${API_URL}/users/matches`;
+    } else if (skillToTeachId) {
+      endpoint = `${API_URL}/users/by-skill?skill_to_teach_id=${skillToTeachId}`;
+    } else {
+      endpoint = `${API_URL}/users/all`;
+    }
 
     fetch(endpoint, { credentials: "include" })
       .then((res) => res.json())
       .then(setUsers)
       .catch((err) => console.error("Fehler beim Laden:", err));
-  }, [skillToTeachId]);
+  }, [skillToTeachId, showMatches]);
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -139,7 +144,7 @@ function MatchingCards({ propSkillToTeachId }) {
                     </h3>
                     <div>
                       <p className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                        Ich möchte gerne lernen:
+                        {selectedUser.username} möchte gerne lernen:
                       </p>
                       <div className="flex flex-wrap gap-2 mb-4">
                         {selectedUser.skills_to_learn.length > 0 ? (
@@ -159,7 +164,7 @@ function MatchingCards({ propSkillToTeachId }) {
                       </div>
 
                       <p className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                        Ich kann dir beibringen:
+                        {selectedUser.username} kann dir beibringen:
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {selectedUser.skills_to_teach.length > 0 ? (

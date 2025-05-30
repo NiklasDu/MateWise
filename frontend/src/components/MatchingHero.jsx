@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function MatchingHero() {
+function MatchingHero({ onFindMatches, onSearch }) {
   const [categories, setCategories] = useState([]);
   const [skills, setSkills] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -30,11 +30,24 @@ function MatchingHero() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (selectedSkill) {
+    if (!selectedCategory || !selectedSkill) {
+      // Nichts ausgewählt: Alle Nutzer anzeigen
       if (typeof onSearch === "function") {
-        onSearch(selectedSkill);
-      } // übergibt Skill-ID an Parent
-      navigate(`/matching?skill=${selectedSkill}`);
+        onSearch(null);
+      }
+      return;
+    }
+
+    if (typeof onSearch === "function") {
+      onSearch(selectedSkill);
+    }
+    navigate(`/matching?skill=${selectedSkill}`);
+  };
+
+  const handleFindMatches = () => {
+    if (typeof onFindMatches === "function") {
+      onFindMatches();
+      navigate("/matching");
     }
   };
 
@@ -45,8 +58,21 @@ function MatchingHero() {
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
             Finde deinen Lernpartner.
           </h1>
+          <p className="text-lg font-normal pb-4 text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
+            Lass dir automatisch passende Lernpartner anzeigen.
+          </p>
+          <button
+            className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800"
+            onClick={handleFindMatches}
+            type="button"
+          >
+            Lernpartner finden
+          </button>
+          <p className="text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 py-3 dark:text-gray-400">
+            oder
+          </p>
           <p className="text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
-            Wähle einen Bereich in dem du dich weiterentwickeln möchtest.
+            wähle einen Bereich in dem du dich weiterentwickeln möchtest.
           </p>
         </div>
         <div className="py-6">
@@ -87,7 +113,6 @@ function MatchingHero() {
               <button
                 type="submit"
                 className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800"
-                disabled={!selectedSkill}
               >
                 Suche starten
               </button>

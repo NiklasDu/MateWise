@@ -174,7 +174,7 @@ def get_matching_users(
         teaches_what_i_learn = skills_to_learn_ids.intersection(user_teach_ids)
         learns_what_i_teach = skills_to_teach_ids.intersection(user_learn_ids)
 
-        if teaches_what_i_learn or learns_what_i_teach:
+        if teaches_what_i_learn and learns_what_i_teach:
             matching_users.append(user)
 
     return matching_users
