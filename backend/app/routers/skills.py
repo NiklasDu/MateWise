@@ -18,6 +18,19 @@ def get_my_skill_ids(
         "teach": [skill.id for skill in current_user.skills_to_teach]
     }
 
+@router.get("/categories")
+def get_all_categories(db: Session = Depends(get_db)):
+    categories = db.query(category_model.Category).all()
+    return [{"id": cat.id, "name": cat.name} for cat in categories]
+
+@router.get("/")
+def get_skills_by_category_name(category: str, db: Session = Depends(get_db)):
+    category_obj = db.query(category_model.Category).filter(category_model.Category.name == category).first()
+    if not category_obj:
+        raise HTTPException(status_code=404, detail="Kategorie nicht gefunden")
+
+    return [{"id": skill.id, "skill_name": skill.skill_name} for skill in category_obj.skills]
+
 # Alle Skills nach Kategorien gruppiert
 @router.get("/by-category", response_model=List[SkillsGroupedByCategory])
 def get_skills_by_category(db: Session = Depends(get_db)):

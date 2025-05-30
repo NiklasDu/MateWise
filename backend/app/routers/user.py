@@ -148,3 +148,40 @@ def delete_own_user(request: Request, db: Session = Depends(get_db)):
     db.delete(user)
     db.commit()
     return {"message": "Benutzerkonto gelöscht"}
+
+@router.get("/matches", response_model=List[user_schema.UserWithSkills])
+def get_matching_users(
+    db: Session = Depends(get_db),
+    current_user: user_model.User = Depends(get_current_user),
+):
+    # ID-Listen der aktuellen Benutzer-Skills
+    skills_to_learn_ids = {skill.id for skill in current_user.skills_to_learn}
+    skills_to_teach_ids = {skill.id for skill in current_user.skills_to_teach}
+
+    if not skills_to_learn_ids and not skills_to_teach_ids:
+        return []
+
+    # Alle anderen Benutzer holen
+    other_users = db.query(user_model.User).filter(user_model.User.id != current_user.id).all()
+
+    matching_users = []
+
+    for user in other_users:
+        user_teach_ids = {skill.id for skill in user.skills_to_teach}
+        user_learn_ids = {skill.id for skill in user.skills_to_learn}
+
+        # Matching-Kriterium: teach/learn Überschneidung
+        teaches_what_i_learn = skills_to_learn_ids.intersection(user_teach_ids)
+        learns_what_i_teach = skills_to_teach_ids.intersection(user_learn_ids)
+
+        if teaches_what_i_learn or learns_what_i_teach:
+            matching_users.append(user)
+
+    return matching_users
+
+@router.get("/by-skill", response_model=List[user_schema.UserWithSkills])
+def get_users_by_skill_to_teach(skill_to_teach_id: int, db: Session = Depends(get_db)):
+    users = db.query(user_model.User).filter(
+        user_model.User.skills_to_teach.any(id=skill_to_teach_id)
+    ).all()
+    return users
