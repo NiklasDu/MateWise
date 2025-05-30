@@ -7,9 +7,9 @@ function Footer() {
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link
             to="/"
-            class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
           >
-            <img src="logo.png" class="h-8" alt="MateWise Logo" />
+            <img src="logo.png" className="h-8" alt="MateWise Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               MateWise
             </span>
@@ -40,7 +40,7 @@ function Footer() {
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2025{" "}
-          <Link to="/" class="hover:underline">
+          <Link to="/" className="hover:underline">
             MateWise
           </Link>
           . All Rights Reserved.

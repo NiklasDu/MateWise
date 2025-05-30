@@ -69,7 +69,7 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                   </div>
                   <button
                     onClick={() => setOpenModal(user.id)}
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-emerald-700 rounded-lg hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-emerald-700 rounded-lg hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
                   >
                     Profil anschauen
                     <svg
@@ -133,7 +133,7 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                       />
                     </svg>
-                    <span class="sr-only">Close modal</span>
+                    <span className="sr-only">Close modal</span>
                   </button>
                 </div>
                 {/* <!-- Modal body --> */}
