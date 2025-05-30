@@ -136,7 +136,7 @@ function ProfileEdit() {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-white dark:bg-gray-900 px-3">
       <h1 className="max-w-md mx-auto mb-4 pt-4 text-2xl font-semibold text-gray-700 dark:text-white">
         Profil anpassen
       </h1>
@@ -225,6 +225,7 @@ function ProfileEdit() {
         >
           Änderungen speichern
         </button>
+        <div className="py-2"></div>
         <button
           type="button"
           onClick={() => {
@@ -241,6 +242,7 @@ function ProfileEdit() {
         >
           Änderungen verwerfen
         </button>
+        <div className="p-3"></div>
         <button
           type="button"
           onClick={handleDeleteAccount}

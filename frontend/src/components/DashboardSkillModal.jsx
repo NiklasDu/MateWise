@@ -94,7 +94,7 @@ export default function DashboardSkillModal() {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-white dark:bg-gray-900 p-3">
       <div className="max-w-md mx-auto">
         <div className="space-y-3">
           <h1 className="text-2xl font-semibold text-gray-700 dark:text-white">
