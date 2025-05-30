@@ -54,7 +54,7 @@ def login_user(user: user_schema.UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Ungültige E-Mail oder Passwort")
     
 
-    token = create_access_token({"sub": str(db_user.id)})
+    token = create_access_token({"sub": str(db_user.id), "is_admin": db_user.is_admin})
 
     response = JSONResponse(content={"message": "Login erfolgreich"})
     response.set_cookie(

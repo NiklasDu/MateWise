@@ -12,6 +12,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)     # E-Mail, einzigartig
     password = Column(String)                           # Passwort, als Text gespeichert
     online = Column(Boolean, default=False)             # Online (True) / Offline (False)
+    is_admin = Column(Boolean, default=False)
 
     # Beziehung zu Skills: Ein User kann viele Skills haben
     skills = relationship("Skill", secondary=user_skills, back_populates="users")

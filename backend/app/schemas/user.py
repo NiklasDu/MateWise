@@ -24,6 +24,7 @@ class UserCreate(UserBase):
 class UserOut(UserBase):
     id: int
     skills: List[SkillOut] = []
+    is_admin: bool
 
     class Config:
         orm_mode = True
