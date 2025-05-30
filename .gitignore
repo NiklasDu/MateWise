@@ -32,3 +32,6 @@ frontend/.parcel-cache/
 frontend/.next/
 frontend/.turbo/
 frontend/dist/
+
+backend/alembic
+alembic.ini
