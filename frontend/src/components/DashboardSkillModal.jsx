@@ -16,7 +16,6 @@ export default function DashboardSkillModal() {
     fetch(`${API_URL}/skills/by-category`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched skills:", data);
         setSkillsByCategory(data);
       })
       .catch((err) => console.error("Fehler beim Laden der Skills:", err));

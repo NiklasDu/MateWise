@@ -1,4 +1,22 @@
+import { useAuth } from "../context/AuthContext";
+import { useState, useEffect } from "react";
+
 function DashboardNewSkills() {
+  const { user } = useAuth();
+  const [newCategory, setNewCategory] = useState("");
+  const [newSkillName, setNewSkillName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    fetch(`${API_URL}/skills/categories`)
+      .then((res) => res.json())
+      .then(setCategories)
+      .catch((err) => console.error("Fehler beim Laden der Kategorien:", err));
+  }, []);
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="max-w-md mx-auto">
@@ -16,11 +34,16 @@ function DashboardNewSkills() {
           </label>
           <div className="pt-2">
             <select
-              value=""
-              onChange=""
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
               className="bg-gray-50 border focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
             >
               <option value="">-- Bitte wählen --</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -30,8 +53,8 @@ function DashboardNewSkills() {
               className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
               placeholder="Neue Kategorie"
               aria-label="Neue Kategorie"
-              value=""
-              onChange=""
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
             />
           </div>
 
@@ -46,8 +69,8 @@ function DashboardNewSkills() {
             className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
             placeholder="Neuer Skillname"
             aria-label="Neuer Skillname"
-            value=""
-            onChange=""
+            value={newSkillName}
+            onChange={(e) => setNewSkillName(e.target.value)}
           />
           <div className="py-3">
             <button
