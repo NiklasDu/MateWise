@@ -29,3 +29,14 @@ def new_skill_suggestion(new_data: suggestions_schema.SkillCreate, db: Session =
 def get_requests(db: Session = Depends(get_db)):
     skill_requests = db.query(suggestions_model.Suggestions).all()
     return skill_requests
+
+@router.delete("/{suggestion_id}")
+def delete_suggestion(suggestion_id: int, db: Session = Depends(get_db)):
+    suggestion = db.query(suggestions_model.Suggestions).filter(suggestions_model.Suggestions.id == suggestion_id).first()
+
+    if not suggestion:
+        raise HTTPException(status_code=404, detail="Eintrag nicht gefunden.")
+    
+    db.delete(suggestion)
+    db.commit()
+    return {"message": "Eintrag erfolgreich gelöscht"}
