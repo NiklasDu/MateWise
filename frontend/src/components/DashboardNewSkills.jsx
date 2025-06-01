@@ -27,7 +27,7 @@ function DashboardNewSkills() {
     ) {
       if (isNewCategory) {
         try {
-          const res = await fetch(`${API_URL}/skills/request`, {
+          const res = await fetch(`${API_URL}/suggestions/request`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
