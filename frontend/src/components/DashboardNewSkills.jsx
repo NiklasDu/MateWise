@@ -35,7 +35,7 @@ function DashboardNewSkills() {
             credentials: "include",
             body: JSON.stringify({
               category: newCategory,
-              skill_name: newSkillName,
+              skill: newSkillName,
             }),
           });
 
@@ -59,7 +59,7 @@ function DashboardNewSkills() {
         }
       } else {
         try {
-          const res = await fetch(`${API_URL}/skills/request`, {
+          const res = await fetch(`${API_URL}/suggestions/request`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -67,7 +67,7 @@ function DashboardNewSkills() {
             credentials: "include",
             body: JSON.stringify({
               category: selectedCategory,
-              skill_name: newSkillName,
+              skill: newSkillName,
             }),
           });
 

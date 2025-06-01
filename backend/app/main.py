@@ -7,6 +7,7 @@ from app.routers import user
 from app.routers import skills
 from app.database import get_db
 from app.routers import admin
+from app.routers import suggestions
 
 app = FastAPI()
 
@@ -27,6 +28,7 @@ app.add_middleware(
 app.include_router(user.router)
 app.include_router(skills.router)
 app.include_router(admin.router)
+app.include_router(suggestions.router)
 
 @app.get("/users", response_model=list[user_schema.UserOut])
 def read_users(db: Session = Depends(get_db)):
