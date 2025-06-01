@@ -33,6 +33,41 @@ function ADashboardSkills() {
     }
   };
 
+  const handleAddSuggestion = async (id, skillName, category, e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`${API_URL}/skills/add-skill`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          skill: skillName,
+          category: category,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        if (typeof data.detail == "string") {
+          alert("Fehler beim hinzufügen des neuen Skills: " + data.detail);
+        } else {
+          alert(
+            "Fehler beim hinzufügen des neuen Skills: " +
+              JSON.stringify(data.detail)
+          );
+        }
+      } else {
+        setSuggestions((prev) => prev.filter((s) => s.id !== id));
+        alert("Neuen Skill der Datenbank hinzugefügt");
+      }
+    } catch (error) {
+      console.error("Fehler beim hinzufügen des Skills:", error);
+    }
+  };
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className=" max-w-screen-lg mx-auto p-4">
@@ -46,7 +81,12 @@ function ADashboardSkills() {
                 ID: {s.id} -- Skill: {s.new_skill_name} -- Kategorie:{" "}
                 {s.category}
                 <div>
-                  <button className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800">
+                  <button
+                    onClick={() =>
+                      handleAddSuggestion(s.id, s.new_skill_name, s.category)
+                    }
+                    className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800"
+                  >
                     OK
                   </button>
                   <button

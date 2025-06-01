@@ -53,6 +53,7 @@ function DashboardNewSkills() {
             setNewCategory("");
             setSelectedCategory("");
             setIsNewCategory(false);
+            alert("Anfrage erfolgreich versendet.");
           }
         } catch (error) {
           console.error("Fehler beim Anfrage stellen:", error);
