@@ -9,6 +9,7 @@ from typing import List
 
 router = APIRouter(prefix="/suggestions", tags=["Suggestions"])
 
+# Anfragen in die Datenbank stellen
 @router.post("/request")
 def new_skill_suggestion(new_data: suggestions_schema.SkillCreate, db: Session = Depends(get_db)):
     if not new_data.category or not new_data.skill:
@@ -22,3 +23,9 @@ def new_skill_suggestion(new_data: suggestions_schema.SkillCreate, db: Session =
     db.add(new_skill)
     db.commit()
     return {"message": "Anfrage erfolgreich gestellt"}
+
+# Anfragen anzeigen für den Admin
+@router.get("/all-requests", response_model=List[suggestions_schema.CategoryOut])
+def get_requests(db: Session = Depends(get_db)):
+    skill_requests = db.query(suggestions_model.Suggestions).all()
+    return skill_requests

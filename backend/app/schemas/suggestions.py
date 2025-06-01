@@ -3,7 +3,7 @@ from pydantic import BaseModel
 class CategoryOut(BaseModel):
     id: int
     category: str
-    skill: str
+    new_skill_name: str
 
     class Config:
         orm_mode = True
