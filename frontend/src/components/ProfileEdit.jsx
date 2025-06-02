@@ -10,6 +10,7 @@ function ProfileEdit() {
   const [passwordOld, setPasswordOld] = useState("");
   const [passwordNew1, setPasswordNew1] = useState("");
   const [passwordNew2, setPasswordNew2] = useState("");
+  const [bio, setBio] = useState("");
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -29,6 +30,7 @@ function ProfileEdit() {
       const updateData = {};
       if (username !== user.username) updateData.username = username;
       if (email !== user.email) updateData.email = email;
+      // if (bio !== user.bio) updateData.bio = bio;
 
       if (Object.keys(updateData).length > 0) {
         const response = await fetch(`${API_URL}/users/me`, {
@@ -141,6 +143,22 @@ function ProfileEdit() {
         Profil anpassen
       </h1>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto pb-5">
+        <div className="mb-5">
+          <label
+            htmlFor="bio"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Bio:
+          </label>
+          <textarea
+            name="bio"
+            id="bio"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            placeholder="Schreib hier etwas über dich und deine Skills..."
+            className="shadow-xs bg-gray-50 border h-30 focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
+          ></textarea>
+        </div>
         <div className="mb-5">
           <label
             htmlFor="username"
