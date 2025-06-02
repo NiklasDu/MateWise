@@ -144,6 +144,20 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                     </h3>
                     <div>
                       <p className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                        Über {selectedUser.username}:
+                      </p>
+                      {selectedUser.bio && selectedUser.bio.length > 0 ? (
+                        <p className="font-normal text-gray-500 dark:text-gray-400">
+                          {selectedUser.bio}
+                        </p>
+                      ) : (
+                        <p className="font-normal text-gray-500 dark:text-gray-400">
+                          Keine Bio vorhanden.
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
                         {selectedUser.username} möchte gerne lernen:
                       </p>
                       <div className="flex flex-wrap gap-2 mb-4">
@@ -186,8 +200,8 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                   </div>
                 )}
                 {/* <!-- Modal footer --> */}
-                <div className=" p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                  <p className="pb-3">
+                <div className="p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                  <p className="pb-3 font-normal text-gray-500 dark:text-gray-400">
                     Du denkst ihr beide könnt euch gegenseitig etwas
                     beibringen?!
                   </p>

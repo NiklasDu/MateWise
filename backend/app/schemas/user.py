@@ -50,6 +50,7 @@ class SkillSimple(BaseModel):
 class UserWithSkills(BaseModel):
     id: int
     username: str
+    bio: Optional[str] = None
     skills_to_learn: List[SkillSimple] = []
     skills_to_teach: List[SkillSimple] = []
 
