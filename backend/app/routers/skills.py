@@ -5,6 +5,8 @@ from app.models import skills as skill_model, user as user_model, categories as 
 from app.schemas.skills import SkillSimple, SkillsGroupedByCategory, SkillWithCategory, SaveSkillsRequest
 from app.routers.user import get_current_user
 from typing import List
+from app.models import suggestions as suggestion_model
+from app.schemas import suggestions as suggestion_schema
 
 router = APIRouter(prefix="/skills", tags=["Skills"])
 
@@ -44,6 +46,29 @@ def get_skills_by_category(db: Session = Depends(get_db)):
         result.append(SkillsGroupedByCategory(category=category.name, skills=skills))
     return result
 
+@router.post("/add-skill")
+def add_new_skill(new_data: suggestion_schema.SkillCreate, db:Session = Depends(get_db)):
+    
+    existing_category = db.query(category_model.Category).filter(category_model.Category.name == new_data.category).first()
+
+    if not existing_category:
+        new_category = category_model.Category(name=new_data.category)
+        db.add(new_category)
+        db.commit()
+        db.refresh(new_category) # Holt ID der neuen Kategorie
+        category_id = new_category.id
+    else:
+        category_id = existing_category.id
+
+    new_skill = skill_model.Skill(
+        skill_name=new_data.skill,
+        category_id=category_id
+    )
+
+    db.add(new_skill)
+    db.commit()
+    return{"message": "Neuer Skill erfolgreich gespeichert"}
+    
 
 # Skills zum Lernen setzen
 @router.post("/learn")

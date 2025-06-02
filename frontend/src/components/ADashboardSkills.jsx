@@ -33,8 +33,8 @@ function ADashboardSkills() {
     }
   };
 
-  const handleAddSuggestion = async (id, skillName, category, e) => {
-    e.preventDefault();
+  const handleAddSuggestion = async (id, skillName, category) => {
+    if (!confirm("Soll der Vorschlag wirklich angenommen werden?")) return;
 
     try {
       const res = await fetch(`${API_URL}/skills/add-skill`, {
@@ -60,8 +60,22 @@ function ADashboardSkills() {
           );
         }
       } else {
-        setSuggestions((prev) => prev.filter((s) => s.id !== id));
         alert("Neuen Skill der Datenbank hinzugefügt");
+        try {
+          const response = await fetch(`${API_URL}/suggestions/${id}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+
+          if (!response.ok)
+            throw new Error(
+              "Vorschlag Löschen (nach Bestätigen) fehlgeschlagen"
+            );
+          setSuggestions((prev) => prev.filter((s) => s.id !== id));
+        } catch (err) {
+          console.error(err);
+          alert("Fehler beim Löschen des Vorschlags");
+        }
       }
     } catch (error) {
       console.error("Fehler beim hinzufügen des Skills:", error);
