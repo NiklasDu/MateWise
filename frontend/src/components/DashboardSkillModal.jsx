@@ -75,10 +75,6 @@ export default function DashboardSkillModal() {
         }
         return res.json();
       })
-      .then((data) => {
-        alert("Skills erfolgreich gespeichert.", data);
-        setOpenModal(null); // Modal schließen
-      })
       .catch((error) => {
         console.error("Fehler:", error);
         alert("Es gab ein Problem beim Speichern deiner Skills.");
@@ -118,16 +114,11 @@ export default function DashboardSkillModal() {
           </ul>
           <button
             onClick={() => setOpenModal("learn")}
-            className="text-white bg-slate-500 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+            className="text-white bg-orange-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
           >
             Skills auswählen
           </button>
-          <button
-            onClick={handleSaveSkills}
-            className="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-          >
-            Skills speichern
-          </button>
+
           <h3 className="text-lg font-semibold pt-3 text-gray-700 dark:text-white">
             Diese Skills kann ich gut:
           </h3>
@@ -143,15 +134,9 @@ export default function DashboardSkillModal() {
           </ul>
           <button
             onClick={() => setOpenModal("teach")}
-            className="text-white bg-slate-500 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+            className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
           >
             Skills auswählen
-          </button>
-          <button
-            onClick={handleSaveSkills}
-            className="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-          >
-            Skills speichern
           </button>
 
           {/* Modal */}
@@ -209,7 +194,10 @@ export default function DashboardSkillModal() {
                 )}
 
                 <button
-                  onClick={() => setOpenModal(null)}
+                  onClick={() => {
+                    handleSaveSkills();
+                    setOpenModal(null);
+                  }}
                   className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl dark:text-white"
                 >
                   &times;
