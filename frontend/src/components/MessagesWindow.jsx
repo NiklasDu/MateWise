@@ -1,7 +1,7 @@
 function MessagesWindow() {
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="container px-4 mx-auto max-w-screen-lg py-10">
+    <section className="bg-white dark:bg-gray-900 p-2">
+      <div className="container px-4 mx-auto max-w-screen-lg py-8">
         <div className="flex items-center gap-x-3">
           <h2 className="text-3xl font-medium text-gray-800 dark:text-white">
             Nachrichten

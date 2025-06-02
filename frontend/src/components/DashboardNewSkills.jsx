@@ -95,7 +95,7 @@ function DashboardNewSkills() {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-white dark:bg-gray-900 p-3">
       <div className="max-w-md mx-auto">
         <h1 className="text-2xl font-semibold text-gray-700 dark:text-white">
           Kein passender Skill dabei?
@@ -104,7 +104,7 @@ function DashboardNewSkills() {
           Stelle hier eine Anfrage für einen neuen Skill.
         </h3>
       </div>
-      <div className="p-3">
+      <div className="">
         <form onSubmit={handleSubmit} className="max-w-md mx-auto">
           <label className="text-xl font-medium text-gray-900 dark:text-white">
             Kategorie:
