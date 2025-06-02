@@ -25,6 +25,7 @@ class UserOut(UserBase):
     id: int
     skills: List[SkillOut] = []
     is_admin: bool
+    bio: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -32,6 +33,7 @@ class UserOut(UserBase):
 class UserUpdate(BaseModel):
     username: Optional[str] = None
     email: Optional[EmailStr] = None
+    bio: Optional[str] = None
 
 class ChangePassword(BaseModel):
     old_password: str

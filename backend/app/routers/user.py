@@ -106,6 +106,8 @@ def update_user_profile(
         current_user.email = update_data.email
     if update_data.username:
         current_user.username = update_data.username
+    if update_data.bio is not None:
+        current_user.bio = update_data.bio
 
     db.commit()
     db.refresh(current_user)

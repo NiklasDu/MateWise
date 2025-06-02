@@ -19,6 +19,7 @@ function ProfileEdit() {
     if (user) {
       setUsername(user.username || "");
       setEmail(user.email || "");
+      setBio(user.bio || "");
     }
   }, [user]);
 
@@ -30,7 +31,7 @@ function ProfileEdit() {
       const updateData = {};
       if (username !== user.username) updateData.username = username;
       if (email !== user.email) updateData.email = email;
-      // if (bio !== user.bio) updateData.bio = bio;
+      updateData.bio = bio;
 
       if (Object.keys(updateData).length > 0) {
         const response = await fetch(`${API_URL}/users/me`, {
