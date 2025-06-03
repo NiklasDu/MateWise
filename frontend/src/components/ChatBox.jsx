@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
-function ChatBox({ selectedUser }) {
+function ChatBox({ selectedUser, onClose }) {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -60,11 +60,31 @@ function ChatBox({ selectedUser }) {
   };
 
   return (
-    <div className="p-4 border rounded-lg bg-white dark:bg-gray-800">
+    <div className="p-4 relative border rounded-xl bg-white dark:bg-gray-800">
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-gray-500 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-400"
+        aria-label="Close chat"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
       <h2 className="text-lg font-bold mb-2">
         Chat mit {selectedUser.username}
       </h2>
-      <div className="h-64 overflow-y-auto border p-2 mb-2">
+      <div className="h-64 overflow-y-auto border rounded-sm p-2 mb-2">
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -90,7 +110,7 @@ function ChatBox({ selectedUser }) {
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         />
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-emerald-600 hover:bg-emerald-800 text-white px-4 py-2 rounded"
           onClick={sendMessage}
         >
           Senden

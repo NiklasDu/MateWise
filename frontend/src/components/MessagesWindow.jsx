@@ -4,6 +4,7 @@ import ChatBox from "./ChatBox";
 function MessagesWindow() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [openModal, setOpenModal] = useState(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -68,7 +69,10 @@ function MessagesWindow() {
                     {users.map((user) => (
                       <tr
                         key={user.id}
-                        onClick={() => setSelectedUser(user)}
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setOpenModal("chat");
+                        }}
                         className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                       >
                         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
@@ -140,11 +144,18 @@ function MessagesWindow() {
                   </tbody>
                 </table>
 
-                {selectedUser && (
-                  <ChatBox
-                    selectedUser={selectedUser}
-                    onClose={() => setSelectedUser(null)}
-                  />
+                {selectedUser && openModal && (
+                  <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 dark:bg-white/25">
+                    <div className="bg-white rounded-xl w-full max-w-lg shadow-xl relative dark:bg-gray-900 max-h-[90vh] overflow-y-auto">
+                      <ChatBox
+                        selectedUser={selectedUser}
+                        onClose={() => {
+                          setSelectedUser(null);
+                          setOpenModal(null);
+                        }}
+                      />
+                    </div>
+                  </div>
                 )}
               </div>
             </div>

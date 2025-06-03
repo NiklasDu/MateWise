@@ -9,6 +9,8 @@ active_connections: Dict[int, WebSocket] = {}
 
 @router.websocket("/ws/chat")
 async def chat_websocket(websocket: WebSocket, user: User = Depends(get_current_user_ws)):
+
+    
     await websocket.accept()
     active_connections[user.id] = websocket
     try:
