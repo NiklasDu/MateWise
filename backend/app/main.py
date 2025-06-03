@@ -10,6 +10,7 @@ from app.routers import admin
 from app.routers import suggestions
 from app.routers import ws_chat
 from app.routers import auth
+from app.routers import messages
 
 app = FastAPI()
 
@@ -33,6 +34,7 @@ app.include_router(admin.router)
 app.include_router(suggestions.router)
 app.include_router(ws_chat.router)
 app.include_router(auth.router)
+app.include_router(messages.router)
 
 
 @app.get("/users", response_model=list[user_schema.UserOut])

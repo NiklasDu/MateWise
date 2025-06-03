@@ -23,9 +23,22 @@ def send_message(message: MessageCreate, db: Session = Depends(get_db), current_
     return new_message
 
 @router.get("/{user_id}")
-def get_chat_history(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def get_chat_history(
+    user_id: int, 
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
     messages = db.query(Message).filter(
         ((Message.sender_id == current_user.id) & (Message.receiver_id == user_id)) |
         ((Message.sender_id == user_id) & (Message.receiver_id == current_user.id))
     ).order_by(Message.timestamp).all()
-    return messages
+    return [
+        {
+            "id": m.id,
+            "sender_id": m.sender_id,
+            "receiver_id": m.receiver_id,
+            "content": m.content,
+            "timestamp": m.timestamp.isoformat() if m.timestamp else None,
+        }
+        for m in messages
+    ]

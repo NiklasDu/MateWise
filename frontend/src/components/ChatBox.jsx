@@ -12,9 +12,25 @@ function ChatBox({ selectedUser, onClose }) {
   useEffect(() => {
     if (!user || !selectedUser) return;
 
+    // 1. Nachrichtenverlauf laden
+    fetch(`${API_URL}/messages/${selectedUser.id}`, { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setMessages(
+            data.map((msg) => ({
+              fromThem: msg.sender_id === selectedUser.id,
+              text: msg.content,
+            }))
+          );
+        } else {
+          setMessages([]); // Falls Fehlerobjekt kommt
+        }
+      });
+
     let socket;
 
-    // 1. Token holen und dann WebSocket verbinden
+    // 2. Token holen und dann WebSocket verbinden
     fetch(`${API_URL}/auth/ws-token`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
@@ -100,7 +116,7 @@ function ChatBox({ selectedUser, onClose }) {
               className={`inline-block px-3 py-1 rounded ${
                 msg.fromThem
                   ? "bg-gray-200 text-black"
-                  : "bg-blue-500 text-white"
+                  : "bg-emerald-500 text-white"
               }`}
             >
               {msg.text}
