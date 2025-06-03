@@ -12,43 +12,49 @@ function ChatBox({ selectedUser, onClose }) {
   useEffect(() => {
     if (!user || !selectedUser) return;
 
-    const socket = new WebSocket(`${API_URL}/ws/chat`);
-    socketRef.current = socket;
+    let socket;
 
-    socket.onopen = () => {
-      console.log("WebSocket verbunden");
-      socket.send(JSON.stringify({ type: "init" }));
+    // 1. Token holen und dann WebSocket verbinden
+    fetch(`${API_URL}/auth/ws-token`, { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => {
+        const wsToken = data.ws_token;
+        // 2. WebSocket mit Token als Query-Parameter öffnen
+        socket = new WebSocket(
+          `${API_URL.replace(/^http/, "ws")}/ws/chat?token=${wsToken}`
+        );
+        socketRef.current = socket;
+
+        socket.onopen = () => {
+          console.log("WebSocket verbunden");
+        };
+
+        socket.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if (data.sender_id === selectedUser.id) {
+            setMessages((prev) => [
+              ...prev,
+              { fromThem: true, text: data.content },
+            ]);
+          }
+        };
+
+        socket.onclose = () => {
+          console.log("WebSocket getrennt");
+        };
+      });
+
+    return () => {
+      if (socketRef.current) socketRef.current.close();
     };
-
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.sender_id === selectedUser.id) {
-        setMessages((prev) => [
-          ...prev,
-          { fromThem: true, text: data.content },
-        ]);
-      }
-    };
-
-    socket.onclose = () => {
-      console.log("WebSocket getrennt");
-    };
-
-    // JWT anhängen
-    socketRef.current._send = socket.send;
-    socket.send = (data) =>
-      socketRef.current._send.call(
-        socketRef.current,
-        new Blob([data], {
-          type: "application/json",
-        })
-      );
-
-    return () => socket.close();
-  }, [selectedUser]);
+  }, [user, selectedUser, API_URL]);
 
   const sendMessage = () => {
-    if (input.trim()) {
+    if (
+      input.trim() &&
+      socketRef.current &&
+      socketRef.current.readyState === 1
+    ) {
       const payload = {
         receiver_id: selectedUser.id,
         content: input,

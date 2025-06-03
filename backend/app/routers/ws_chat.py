@@ -1,16 +1,37 @@
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, Query
 from typing import Dict
 from app.utils.dependencies import get_current_user_ws
 from app.models.user import User
+from app.utils.jwt import SECRET_KEY, ALGORITHM
+from jose import jwt, JWTError
+
+from app.database import SessionLocal
+from app.models.user import User
+
+def get_user_by_id(user_id: int):
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
+        return user
+    finally:
+        db.close()
 
 router = APIRouter()
 
 active_connections: Dict[int, WebSocket] = {}
 
 @router.websocket("/ws/chat")
-async def chat_websocket(websocket: WebSocket, user: User = Depends(get_current_user_ws)):
-
-    
+async def chat_websocket(websocket: WebSocket, token: str = Query(...)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user_id = int(payload.get("sub"))
+        user = get_user_by_id(user_id)
+        if not user:
+            await websocket.close(code=1008)
+            return
+    except JWTError:
+        await websocket.close(code=1008)
+        return
     await websocket.accept()
     active_connections[user.id] = websocket
     try:

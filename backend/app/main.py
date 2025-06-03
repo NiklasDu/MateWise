@@ -9,6 +9,7 @@ from app.database import get_db
 from app.routers import admin
 from app.routers import suggestions
 from app.routers import ws_chat
+from app.routers import auth
 
 app = FastAPI()
 
@@ -31,6 +32,8 @@ app.include_router(skills.router)
 app.include_router(admin.router)
 app.include_router(suggestions.router)
 app.include_router(ws_chat.router)
+app.include_router(auth.router)
+
 
 @app.get("/users", response_model=list[user_schema.UserOut])
 def read_users(db: Session = Depends(get_db)):
