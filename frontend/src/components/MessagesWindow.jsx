@@ -87,11 +87,33 @@ function MessagesWindow() {
                           </div>
                         </td>
                         <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                          <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                          <div
+                            className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 
+                                      ${
+                                        user.online === true
+                                          ? "bg-emerald-100/60"
+                                          : "bg-red-100/60"
+                                      } 
+                                       dark:bg-gray-800`}
+                          >
+                            <span
+                              className={`h-1.5 w-1.5 rounded-full 
+                              ${
+                                user.online === true
+                                  ? "bg-emerald-500"
+                                  : "bg-red-500"
+                              }`}
+                            ></span>
 
-                            <h2 className="text-sm font-normal text-emerald-500">
-                              {user.online}
+                            <h2
+                              className={`text-sm font-normal 
+                              ${
+                                user.online === true
+                                  ? "text-emerald-500"
+                                  : "text-red-500"
+                              }`}
+                            >
+                              {user.online === true ? "Online" : "Offline"}
                             </h2>
                           </div>
                         </td>

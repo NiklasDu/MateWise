@@ -53,6 +53,9 @@ def login_user(user: user_schema.UserLogin, db: Session = Depends(get_db)):
     if not db_user or not verify_password(user.password, db_user.password):
         raise HTTPException(status_code=400, detail="Ungültige E-Mail oder Passwort")
     
+    # User als online markieren
+    db_user.online = True
+    db.commit()
 
     token = create_access_token({"sub": str(db_user.id), "is_admin": db_user.is_admin})
 
@@ -70,7 +73,19 @@ def login_user(user: user_schema.UserLogin, db: Session = Depends(get_db)):
     return response
 
 @router.post("/logout")
-def logout():
+def logout(request: Request, db: Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    if token:
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            user_id = int(payload.get("sub"))
+            db_user = db.query(user_model.User).filter(user_model.User.id == user_id).first()
+            if db_user:
+                db_user.online = False
+                db.commit()
+        except Exception:
+            pass  # Token ungültig oder User nicht gefunden, ignoriere
+
     response = JSONResponse(content={"message": "Logout erfolgreich"})
     response.delete_cookie("access_token", path="/")
     return response
