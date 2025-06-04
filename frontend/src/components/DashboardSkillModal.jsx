@@ -100,18 +100,21 @@ export default function DashboardSkillModal() {
     <section className="bg-white dark:bg-gray-900 p-3">
       <div className="max-w-md mx-auto">
         <div className="space-y-3">
-          <h1 className="text-2xl font-extrabold text-gray-800 dark:text-white">
-            Deine Lernreise beginnt hier!
-          </h1>
-          <p className="text-gray-500 dark:text-gray-300">
-            Wähle aus, was du lernen möchtest und welche Fähigkeiten du anderen
-            beibringen kannst. Je mehr du teilst, desto besser können wir dich
-            mit passenden Lernpartnern verbinden.
-          </p>
-          <p className="text-sm text-gray-400 dark:text-gray-500">
-            {selectedLearnSkills.length} Lern-Skills &bull;{" "}
-            {selectedTeachSkills.length} Lehr-Skills ausgewählt
-          </p>
+          <div className="mb-6 text-center">
+            <h1 className="text-2xl font-extrabold text-emerald-700 dark:text-emerald-400">
+              Deine Lernreise beginnt hier!
+            </h1>
+            <p className="mt-2 text-gray-500 dark:text-gray-300">
+              Wähle aus, was du lernen möchtest und welche Fähigkeiten du
+              anderen beibringen kannst. Je mehr du teilst, desto besser können
+              wir dich mit passenden Lernpartnern verbinden.
+            </p>
+            <p className="pt-3 text-sm text-gray-400 dark:text-gray-500">
+              {selectedLearnSkills.length} Lern-Skills &bull;{" "}
+              {selectedTeachSkills.length} Lehr-Skills ausgewählt
+            </p>
+          </div>
+
           <h3 className="text-lg font-semibold text-gray-700 dark:text-white">
             Diese Skills möchte ich lernen:
           </h3>

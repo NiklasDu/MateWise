@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
 function ProfileEdit() {
-  const { user, logout, refreshUser } = useAuth(); // User-Daten aus Context holen
+  const { user, logout, refreshUser } = useAuth();
 
   // Lokale States für die Eingabefelder
   const [username, setUsername] = useState("");
@@ -139,137 +139,126 @@ function ProfileEdit() {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900 px-3">
-      <h1 className="max-w-md mx-auto mb-4 pt-4 text-2xl font-semibold text-gray-700 dark:text-white">
-        Profil anpassen
-      </h1>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto pb-5">
-        <div className="mb-5">
-          <label
-            htmlFor="bio"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Bio:
-          </label>
-          <textarea
-            name="bio"
-            id="bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="Schreib hier etwas über dich und deine Skills..."
-            className="shadow-xs bg-gray-50 border h-30 focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-          ></textarea>
-        </div>
-        <div className="mb-5">
-          <label
-            htmlFor="username"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Benutzername:
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="shadow-xs bg-gray-50 border focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-            placeholder="MrDaniel"
-            required
-          />
-        </div>
-        <div className="mb-5">
-          <label
-            htmlFor="email"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Email Adresse:
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="shadow-xs bg-gray-50 border focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-            required
-          />
-        </div>
-        <div className="mb-5">
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Altes Passwort:
-          </label>
-          <input
-            type="password"
-            id="password_old"
-            value={passwordOld}
-            onChange={(e) => setPasswordOld(e.target.value)}
-            className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-          />
-        </div>
-        <div className="mb-5">
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Neues Passwort:
-          </label>
-          <input
-            type="password"
-            id="password_new_1"
-            value={passwordNew1}
-            onChange={(e) => setPasswordNew1(e.target.value)}
-            className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-          />
-        </div>
-        <div className="mb-5">
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Neues Passwort wiederholen:
-          </label>
-          <input
-            type="password"
-            id="password_new_2"
-            value={passwordNew2}
-            onChange={(e) => setPasswordNew2(e.target.value)}
-            className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-          />
-        </div>
-        <button
-          type="submit"
-          className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-        >
-          Änderungen speichern
-        </button>
-        <div className="py-2"></div>
-        <button
-          type="button"
-          onClick={() => {
-            // Formular zurücksetzen auf aktuelle Werte
-            if (user) {
-              setUsername(user.username || "");
-              setEmail(user.email || "");
-              setPasswordOld("");
-              setPasswordNew1("");
-              setPasswordNew2("");
-            }
-          }}
-          className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-        >
-          Änderungen verwerfen
-        </button>
-        <div className="p-3"></div>
-        <button
-          type="button"
-          onClick={handleDeleteAccount}
-          className="text-white bg-red-600 hover:bg-red-800 mt-3 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-        >
-          Konto löschen
-        </button>
-      </form>
+    <section className="bg-white dark:bg-gray-900 px-3 py-8 min-h-[80vh]">
+      <div className="max-w-md mx-auto">
+        <h1 className="mb-6 text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 text-center">
+          Profil bearbeiten
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label
+              htmlFor="bio"
+              className="block mb-2 text-md font-semibold text-gray-900 dark:text-white"
+            >
+              Über dich
+            </label>
+            <textarea
+              name="bio"
+              id="bio"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              placeholder="Schreib hier etwas über dich, deine Interessen und Skills..."
+              className="bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+              rows={4}
+            ></textarea>
+          </div>
+          <div>
+            <label
+              htmlFor="username"
+              className="block mb-2 text-md font-semibold text-gray-900 dark:text-white"
+            >
+              Benutzername
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+              placeholder="Dein Benutzername"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block mb-2 text-md font-semibold text-gray-900 dark:text-white"
+            >
+              E-Mail-Adresse
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+              required
+            />
+          </div>
+          <div className="pt-2 pb-1 border-t border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-700 dark:text-white mb-2">
+              Passwort ändern
+            </h2>
+            <div className="space-y-3">
+              <input
+                type="password"
+                id="password_old"
+                value={passwordOld}
+                onChange={(e) => setPasswordOld(e.target.value)}
+                className="bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+                placeholder="Altes Passwort"
+              />
+              <input
+                type="password"
+                id="password_new_1"
+                value={passwordNew1}
+                onChange={(e) => setPasswordNew1(e.target.value)}
+                className="bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+                placeholder="Neues Passwort"
+              />
+              <input
+                type="password"
+                id="password_new_2"
+                value={passwordNew2}
+                onChange={(e) => setPasswordNew2(e.target.value)}
+                className="bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+                placeholder="Neues Passwort wiederholen"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 pt-2">
+            <button
+              type="submit"
+              className="w-full text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-base px-5 py-2.5 dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 transition"
+            >
+              Änderungen speichern
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (user) {
+                  setUsername(user.username || "");
+                  setEmail(user.email || "");
+                  setPasswordOld("");
+                  setPasswordNew1("");
+                  setPasswordNew2("");
+                  setBio(user.bio || "");
+                }
+              }}
+              className="w-full text-emerald-700 bg-emerald-100 hover:bg-emerald-200 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-base px-5 py-2.5 dark:bg-gray-700 dark:text-emerald-300 dark:hover:bg-gray-800 dark:focus:ring-emerald-800 transition"
+            >
+              Änderungen verwerfen
+            </button>
+            <button
+              type="button"
+              onClick={handleDeleteAccount}
+              className="w-full text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-base px-5 py-2.5 mt-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 transition"
+            >
+              Konto löschen
+            </button>
+          </div>
+        </form>
+      </div>
     </section>
   );
 }

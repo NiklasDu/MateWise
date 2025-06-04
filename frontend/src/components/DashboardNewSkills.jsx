@@ -86,6 +86,7 @@ function DashboardNewSkills() {
             setNewCategory("");
             setSelectedCategory("");
             setIsNewCategory(false);
+            alert("Anfrage erfolgreich versendet.");
           }
         } catch (error) {
           console.error("Fehler beim Anfrage stellen:", error);
@@ -95,26 +96,27 @@ function DashboardNewSkills() {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900 p-3">
+    <section className="bg-white dark:bg-gray-900 p-3 pt-8">
       <div className="max-w-md mx-auto">
-        <h1 className="text-2xl font-semibold text-gray-700 dark:text-white">
-          Kein passender Skill dabei?
-        </h1>
-        <h3 className="text-gray-500 dark:text-gray-300">
-          Stelle hier eine Anfrage für einen neuen Skill.
-        </h3>
-      </div>
-      <div className="">
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-          <label className="text-xl font-medium text-gray-900 dark:text-white">
-            Kategorie:
-          </label>
-          <div className={!isNewCategory ? "block" : "hidden"}>
-            <div className="pt-2">
+        <div className="mb-6 text-center">
+          <h1 className="text-2xl font-extrabold text-emerald-700 dark:text-emerald-400">
+            Kein passender Skill dabei?
+          </h1>
+          <p className="mt-2 text-gray-500 dark:text-gray-300">
+            Schlage uns einen neuen Skill vor und hilf mit, MateWise noch besser
+            zu machen!
+          </p>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-base font-medium text-gray-900 dark:text-white mb-1">
+              Kategorie
+            </label>
+            {!isNewCategory ? (
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="bg-gray-50 border focus:outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+                className="bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
               >
                 <option value="">-- Bitte wählen --</option>
                 {categories.map((cat) => (
@@ -123,62 +125,45 @@ function DashboardNewSkills() {
                   </option>
                 ))}
               </select>
-            </div>
-          </div>
-
-          <div className={isNewCategory ? "block" : "hidden"}>
-            <div className="pt-3">
+            ) : (
               <input
                 type="text"
-                className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
+                className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
                 placeholder="Neue Kategorie"
                 aria-label="Neue Kategorie"
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
               />
-            </div>
-          </div>
-
-          <div className="pt-2">
-            {!isNewCategory ? (
-              <button
-                onClick={() => setIsNewCategory((prev) => !prev)}
-                type="button"
-                className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800"
-              >
-                Neue Kategorie wählen
-              </button>
-            ) : (
-              <button
-                onClick={() => setIsNewCategory((prev) => !prev)}
-                type="button"
-                className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800"
-              >
-                Vorhandene Kategorie wählen
-              </button>
             )}
+            <button
+              type="button"
+              onClick={() => setIsNewCategory((prev) => !prev)}
+              className="mt-2 text-xs text-emerald-700 dark:text-emerald-400 underline hover:no-underline"
+            >
+              {isNewCategory
+                ? "Vorhandene Kategorie wählen"
+                : "Neue Kategorie anlegen"}
+            </button>
           </div>
-
-          <div className="pt-3 pb-2">
-            <label className="text-xl font-medium text-gray-900 dark:text-white">
-              Skill:
+          <div>
+            <label className="block text-base font-medium text-gray-900 dark:text-white mb-1">
+              Skill
             </label>
+            <input
+              type="text"
+              className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+              placeholder="Neuer Skillname"
+              aria-label="Neuer Skillname"
+              value={newSkillName}
+              onChange={(e) => setNewSkillName(e.target.value)}
+            />
           </div>
-
-          <input
-            type="text"
-            className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 dark:shadow-xs-light"
-            placeholder="Neuer Skillname"
-            aria-label="Neuer Skillname"
-            value={newSkillName}
-            onChange={(e) => setNewSkillName(e.target.value)}
-          />
-          <div className="py-3">
+          <div className="pt-2">
             <button
               type="submit"
-              className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800"
+              className="w-full text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-base px-5 py-2.5 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800 transition"
             >
-              Anfrage stellen
+              Skill vorschlagen
             </button>
           </div>
         </form>
