@@ -71,6 +71,17 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                   className="rounded-t-lg max-h-[400px]"
                   dangerouslySetInnerHTML={{
                     __html: createAvatar(funEmoji, {
+                      mouth: [
+                        "cute",
+                        "kissHeart",
+                        "lilSmile",
+                        "plain",
+                        "shout",
+                        "shy",
+                        "smileLol",
+                        "smileTeeth",
+                        "tongueOut",
+                      ],
                       seed: user.username,
                       size: 400,
                     })
@@ -182,7 +193,18 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                         className="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-400 shadow overflow-hidden"
                         dangerouslySetInnerHTML={{
                           __html: createAvatar(funEmoji, {
-                            seed: user.username,
+                            mouth: [
+                              "cute",
+                              "kissHeart",
+                              "lilSmile",
+                              "plain",
+                              "shout",
+                              "shy",
+                              "smileLol",
+                              "smileTeeth",
+                              "tongueOut",
+                            ],
+                            seed: selectedUser.username,
                             size: 400,
                           })
                             .toString()
