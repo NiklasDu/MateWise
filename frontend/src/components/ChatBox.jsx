@@ -6,6 +6,7 @@ function ChatBox({ selectedUser, onClose }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const socketRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -65,6 +66,10 @@ function ChatBox({ selectedUser, onClose }) {
     };
   }, [user, selectedUser, API_URL]);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const sendMessage = () => {
     if (
       input.trim() &&
@@ -123,6 +128,7 @@ function ChatBox({ selectedUser, onClose }) {
             </span>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       <div className="flex gap-2">
         <input
