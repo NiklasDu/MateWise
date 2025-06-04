@@ -202,3 +202,16 @@ def get_users_by_skill_to_teach(skill_to_teach_id: int, db: Session = Depends(ge
         user_model.User.skills_to_teach.any(id=skill_to_teach_id)
     ).all()
     return users
+
+@router.get("/{user_id}")
+def get_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(user_model.User).filter(user_model.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {
+        "id": user.id,
+        "username": user.username,
+        "bio": user.bio,
+        "skills_to_learn": [{"id": s.id, "skill_name": s.skill_name} for s in user.skills_to_learn],
+        "skills_to_teach": [{"id": s.id, "skill_name": s.skill_name} for s in user.skills_to_teach],
+    }

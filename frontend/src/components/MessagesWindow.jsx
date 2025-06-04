@@ -6,6 +6,8 @@ function MessagesWindow() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [openModal, setOpenModal] = useState(null);
   const [page, setPage] = useState(1);
+  const [profileUser, setProfileUser] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(false);
 
   const USERS_PER_PAGE = 10;
   const API_URL = import.meta.env.VITE_API_URL;
@@ -33,7 +35,7 @@ function MessagesWindow() {
           </h2>
 
           <span className="px-3 py-1 text-sm text-emerald-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-emerald-400">
-            {/* ... */}
+            0 neue
           </span>
         </div>
 
@@ -126,14 +128,29 @@ function MessagesWindow() {
                     </td>
                     <td className="px-4 py-4 text-sm whitespace-nowrap">
                       <div className="flex items-center gap-x-2">
-                        <p className=" text-xsrounded-full dark:text-white dark:bg-gray-900 ">
-                          ...
+                        <p className="text-xs rounded-full dark:text-white dark:bg-gray-900">
+                          {user.last_message
+                            ? user.last_message
+                            : "Noch keine Nachrichten"}
                         </p>
                       </div>
                     </td>
                     <td className="px-4 py-4 text-sm whitespace-nowrap">
                       <div className="flex items-center gap-x-6">
-                        <button className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-emerald-700 rounded-lg hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800">
+                        <button
+                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-emerald-700 rounded-lg hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            setProfileLoading(true);
+                            const res = await fetch(
+                              `${API_URL}/users/${user.id}`,
+                              { credentials: "include" }
+                            );
+                            const data = await res.json();
+                            setProfileUser(data);
+                            setProfileLoading(false);
+                          }}
+                        >
                           Profil anzeigen
                         </button>
                       </div>
@@ -192,6 +209,107 @@ function MessagesWindow() {
           </button>
         </div>
       </div>
+
+      {profileUser && (
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 dark:bg-white/25">
+          <div className="bg-white rounded-xl w-full max-w-lg shadow-xl relative dark:bg-gray-900 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                Profil
+              </h3>
+              <button
+                type="button"
+                onClick={() => setProfileUser(null)}
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+            </div>
+            <div className="p-4 md:p-5 space-y-4">
+              {profileLoading ? (
+                <div className="text-center text-gray-500">Lädt...</div>
+              ) : (
+                <>
+                  <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+                    {profileUser.username}
+                  </h3>
+                  <div>
+                    <p className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                      Über {profileUser.username}:
+                    </p>
+                    {profileUser.bio && profileUser.bio.length > 0 ? (
+                      <p className="font-normal text-gray-500 dark:text-gray-400">
+                        {profileUser.bio}
+                      </p>
+                    ) : (
+                      <p className="font-normal text-gray-500 dark:text-gray-400">
+                        Keine Bio vorhanden.
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                      {profileUser.username} möchte gerne lernen:
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {profileUser.skills_to_learn &&
+                      profileUser.skills_to_learn.length > 0 ? (
+                        profileUser.skills_to_learn.map((skill) => (
+                          <span
+                            key={`modal-learn-${skill.id}`}
+                            className="px-3 py-1 text-sm font-medium text-orange-600 bg-orange-100 rounded-full dark:text-orange-300 dark:bg-gray-600"
+                          >
+                            {skill.skill_name}
+                          </span>
+                        ))
+                      ) : (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Keine Angaben.
+                        </p>
+                      )}
+                    </div>
+                    <p className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                      {profileUser.username} kann dir beibringen:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {profileUser.skills_to_teach &&
+                      profileUser.skills_to_teach.length > 0 ? (
+                        profileUser.skills_to_teach.map((skill) => (
+                          <span
+                            key={`modal-teach-${skill.id}`}
+                            className="px-3 py-1 text-sm font-medium text-emerald-600 bg-emerald-100 rounded-full dark:text-emerald-300 dark:bg-gray-600"
+                          >
+                            {skill.skill_name}
+                          </span>
+                        ))
+                      ) : (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Keine Angaben.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
