@@ -108,7 +108,7 @@ function ChatBox({ selectedUser, onClose }) {
           />
         </svg>
       </button>
-      <h2 className="text-lg font-bold mb-2">
+      <h2 className="text-lg font-bold mb-2 dark:text-white">
         Chat mit {selectedUser.username}
       </h2>
       <div className="h-64 overflow-y-auto border rounded-sm p-2 mb-2">
@@ -132,7 +132,7 @@ function ChatBox({ selectedUser, onClose }) {
       </div>
       <div className="flex gap-2">
         <input
-          className="flex-1 border p-2 rounded"
+          className="flex-1 border p-2 rounded dark:text-white"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
