@@ -22,6 +22,28 @@ def send_message(message: MessageCreate, db: Session = Depends(get_db), current_
     db.refresh(new_message)
     return new_message
 
+@router.get("/chat-partners")
+def get_chat_partners(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # Alle User-IDs, mit denen der aktuelle User geschrieben hat (gesendet oder empfangen)
+    sent = db.query(Message.receiver_id).filter(Message.sender_id == current_user.id)
+    received = db.query(Message.sender_id).filter(Message.receiver_id == current_user.id)
+    user_ids = set([row[0] for row in sent] + [row[0] for row in received])
+    # Sich selbst rausfiltern
+    user_ids.discard(current_user.id)
+    # User-Objekte holen
+    users = db.query(User).filter(User.id.in_(user_ids)).all()
+    return [
+        {
+            "id": u.id,
+            "username": u.username,
+            "online": u.online,
+        }
+        for u in users
+    ]
+
 @router.get("/{user_id}")
 def get_chat_history(
     user_id: int, 

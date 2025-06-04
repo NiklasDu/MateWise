@@ -9,10 +9,10 @@ function MessagesWindow() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch(`${API_URL}/users/all`) // je nach Backend-URL anpassen
+    fetch(`${API_URL}/messages/chat-partners`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setUsers(data))
-      .catch((err) => console.error("Fehler beim Laden der User:", err));
+      .catch((err) => console.error("Fehler beim Laden der Chatpartner:", err));
   }, []);
 
   return (
@@ -120,7 +120,7 @@ function MessagesWindow() {
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <div className="flex items-center gap-x-2">
                             <p className=" text-xsrounded-full dark:bg-gray-800 ">
-                              Hallo
+                              ...
                             </p>
                           </div>
                         </td>
