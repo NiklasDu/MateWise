@@ -16,6 +16,15 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  const [page, setPage] = useState(1);
+  const CARDS_PER_PAGE = 20;
+
+  const totalPages = Math.ceil(users.length / CARDS_PER_PAGE);
+  const pagedUsers = users.slice(
+    (page - 1) * CARDS_PER_PAGE,
+    page * CARDS_PER_PAGE
+  );
+
   useEffect(() => {
     let endpoint;
     if (showMatches) {
@@ -61,8 +70,8 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
     <section className="bg-white dark:bg-gray-900">
       <div className="max-w-screen-xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center">
-          {users.length > 0 ? (
-            users.map((user) => (
+          {pagedUsers.length > 0 ? (
+            pagedUsers.map((user) => (
               <div
                 key={user.id}
                 className="max-w-sm w-full h-[585px] flex flex-col bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700 transition hover:shadow-xl"
@@ -288,6 +297,38 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {totalPages > 0 && (
+          <div className="flex justify-center items-center gap-2 mt-8">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-white font-medium hover:bg-emerald-100 dark:hover:bg-emerald-800 transition disabled:opacity-50"
+            >
+              Zurück
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => setPage(i + 1)}
+                className={`px-3 py-2 rounded-lg font-semibold ${
+                  page === i + 1
+                    ? "bg-emerald-700 text-white dark:bg-emerald-500"
+                    : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-white hover:bg-emerald-100 dark:hover:bg-emerald-800"
+                } transition`}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-white font-medium hover:bg-emerald-100 dark:hover:bg-emerald-800 transition disabled:opacity-50"
+            >
+              Weiter
+            </button>
           </div>
         )}
       </div>
