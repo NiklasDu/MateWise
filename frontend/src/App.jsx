@@ -21,7 +21,15 @@ function App() {
       {!isRegisterPage && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/matching" element={<Matching />} />
+
+        <Route
+          path="/matching"
+          element={
+            <ProtectedRoute>
+              <Matching />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={
