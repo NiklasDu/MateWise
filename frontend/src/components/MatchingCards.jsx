@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // falls du den User brauchst
 
 function MatchingCards({ propSkillToTeachId, showMatches }) {
   const [users, setUsers] = useState([]);
@@ -9,6 +10,7 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
   const [searchParams] = useSearchParams();
   const skillParam = searchParams.get("skill");
   const skillToTeachId = propSkillToTeachId || skillParam;
+  const { user } = useAuth(); // falls du den eingeloggten User brauchst
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -27,6 +29,31 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
       .then(setUsers)
       .catch((err) => console.error("Fehler beim Laden:", err));
   }, [skillToTeachId, showMatches]);
+
+  // Nachricht senden
+  const handleSendMessage = async (receiverId, receiverName) => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    try {
+      const res = await fetch(`${API_URL}/messages/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          receiver_id: receiverId,
+          content: `Hallo ${receiverName}, ich bin interessiert mit dir zu lernen.`,
+        }),
+      });
+      if (res.ok) {
+        alert(`Nachricht an ${receiverName} wurde gesendet!`);
+      } else {
+        alert("Fehler beim Senden der Nachricht.");
+      }
+    } catch (err) {
+      alert("Fehler beim Senden der Nachricht.");
+    }
+  };
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -209,6 +236,9 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                     data-modal-hide="medium-modal"
                     type="button"
                     className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                    onClick={() =>
+                      handleSendMessage(selectedUser.id, selectedUser.username)
+                    }
                   >
                     {selectedUser.username} eine Nachricht senden
                   </button>
