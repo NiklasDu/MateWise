@@ -139,7 +139,7 @@ function ProfileEdit() {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900 px-3 py-8 min-h-[80vh]">
+    <section className="bg-white dark:bg-gray-900 px-3 py-8 min-h-[60vh]">
       <div className="max-w-md mx-auto">
         <h1 className="mb-6 text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 text-center">
           Profil bearbeiten

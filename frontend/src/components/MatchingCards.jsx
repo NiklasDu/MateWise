@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // falls du den User brauchst
+import * as funEmoji from "@dicebear/fun-emoji";
+import { createAvatar } from "@dicebear/core";
 
 function MatchingCards({ propSkillToTeachId, showMatches }) {
   const [users, setUsers] = useState([]);
@@ -63,12 +65,18 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
             users.map((user) => (
               <div
                 key={user.id}
-                className="max-w-sm w-full h-[585px] flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                className="max-w-sm w-full h-[585px] flex flex-col bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700 transition hover:shadow-xl"
               >
-                <img
+                <div
                   className="rounded-t-lg max-h-[400px]"
-                  src="avatar_icon.png"
-                  alt=""
+                  dangerouslySetInnerHTML={{
+                    __html: createAvatar(funEmoji, {
+                      seed: user.username,
+                      size: 400,
+                    })
+                      .toString()
+                      .replace("<svg", '<svg width="100%" height="100%"'),
+                  }}
                 />
                 <div className="p-5 flex flex-col justify-start gap-y-3 flex-grow">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -135,8 +143,8 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
               {/* <!-- Modal content --> */}
               <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
                 {/* <!-- Modal header --> */}
-                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                  <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                <div className="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600 border-gray-200">
+                  <h3 className="text-xl font-extrabold text-emerald-700 dark:text-emerald-400">
                     Profil
                   </h3>
                   <button
@@ -169,6 +177,19 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
                     <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
                       {selectedUser.username}
                     </h3>
+                    <div className="flex justify-start mb-2">
+                      <div
+                        className="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-400 shadow overflow-hidden"
+                        dangerouslySetInnerHTML={{
+                          __html: createAvatar(funEmoji, {
+                            seed: user.username,
+                            size: 400,
+                          })
+                            .toString()
+                            .replace("<svg", '<svg width="100%" height="100%"'),
+                        }}
+                      ></div>
+                    </div>
                     <div>
                       <p className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">
                         Über {selectedUser.username}:
