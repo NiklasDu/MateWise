@@ -40,7 +40,7 @@ function MessagesWindow() {
         </div>
 
         <div className="flex flex-col mt-6">
-          <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-50 dark:bg-gray-800">
                 <tr>
@@ -128,7 +128,7 @@ function MessagesWindow() {
                     </td>
                     <td className="px-4 py-4 text-sm whitespace-nowrap">
                       <div className="flex items-center gap-x-2">
-                        <p className="text-xs rounded-full dark:text-white dark:bg-gray-900">
+                        <p className="text-xs rounded-full dark:text-white dark:bg-gray-900 truncate max-w-[200px] overflow-hidden whitespace-nowrap">
                           {user.last_message
                             ? user.last_message
                             : "Noch keine Nachrichten"}

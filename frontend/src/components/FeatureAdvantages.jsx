@@ -40,9 +40,9 @@ function FeatureAdvantages() {
                 </h1>
 
                 <p className="mt-3 text-gray-500 dark:text-gray-300">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Provident ab nulla quod dignissimos vel non corrupti doloribus
-                  voluptatum eveniet
+                  MateWise ist und bleibt für dich komplett kostenlos. Lerne,
+                  teile dein Wissen und finde neue Freunde – ganz ohne
+                  versteckte Gebühren oder Abo-Fallen.
                 </p>
               </div>
             </div>
@@ -71,9 +71,9 @@ function FeatureAdvantages() {
                 </h1>
 
                 <p className="mt-3 text-gray-500 dark:text-gray-300">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Provident ab nulla quod dignissimos vel non corrupti doloribus
-                  voluptatum eveniet
+                  Finde Menschen, die deine Interessen teilen und gemeinsam mit
+                  dir wachsen wollen. Bei MateWise steht der persönliche
+                  Austausch und das Miteinander im Mittelpunkt.
                 </p>
               </div>
             </div>
@@ -108,9 +108,9 @@ function FeatureAdvantages() {
                 </h1>
 
                 <p className="mt-3 text-gray-500 dark:text-gray-300">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Provident ab nulla quod dignissimos vel non corrupti doloribus
-                  voluptatum eveniet
+                  Erweitere deinen Horizont und knüpfe wertvolle Kontakte. Mit
+                  MateWise findest du inspirierende Lernpartner, die dich
+                  motivieren und unterstützen.
                 </p>
               </div>
             </div>
@@ -118,8 +118,8 @@ function FeatureAdvantages() {
 
           <div className="hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center">
             <img
-              className="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-full"
-              src="horse_race.jpg"
+              className="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-2xl"
+              src="feature_picture.jpg"
               alt=""
             />
           </div>
