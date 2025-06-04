@@ -6,6 +6,7 @@ export default function DashboardSkillModal() {
   const [skillsByCategory, setSkillsByCategory] = useState([]);
   const [selectedLearnSkills, setSelectedLearnSkills] = useState([]);
   const [selectedTeachSkills, setSelectedTeachSkills] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -88,16 +89,28 @@ export default function DashboardSkillModal() {
       .map((skill) => skill.skill_name);
   };
 
+  const filteredSkillsByCategory = skillsByCategory.map((group) => ({
+    ...group,
+    skills: group.skills.filter((skill) =>
+      skill.skill_name.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
+  }));
+
   return (
     <section className="bg-white dark:bg-gray-900 p-3">
       <div className="max-w-md mx-auto">
         <div className="space-y-3">
-          <h1 className="text-2xl font-semibold text-gray-700 dark:text-white">
-            Fähigkeiten auswählen
+          <h1 className="text-2xl font-extrabold text-gray-800 dark:text-white">
+            Deine Lernreise beginnt hier!
           </h1>
           <p className="text-gray-500 dark:text-gray-300">
-            Wähle hier aus, welche Skills du lernen möchtest und welche du
-            beibringen kannst.
+            Wähle aus, was du lernen möchtest und welche Fähigkeiten du anderen
+            beibringen kannst. Je mehr du teilst, desto besser können wir dich
+            mit passenden Lernpartnern verbinden.
+          </p>
+          <p className="text-sm text-gray-400 dark:text-gray-500">
+            {selectedLearnSkills.length} Lern-Skills &bull;{" "}
+            {selectedTeachSkills.length} Lehr-Skills ausgewählt
           </p>
           <h3 className="text-lg font-semibold text-gray-700 dark:text-white">
             Diese Skills möchte ich lernen:
@@ -106,16 +119,42 @@ export default function DashboardSkillModal() {
             {getSkillNamesFromIds(selectedLearnSkills).map((name) => (
               <li
                 key={name}
-                className="px-3 py-2 text-xs font-medium text-orange-500 bg-orange-100 rounded-full dark:text-orange-300 dark:bg-gray-700"
+                className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-orange-500 bg-orange-100 rounded-full dark:text-orange-300 dark:bg-gray-700 shadow-sm"
               >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
                 {name}
               </li>
             ))}
           </ul>
           <button
             onClick={() => setOpenModal("learn")}
-            className="text-white bg-orange-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+            className="inline-flex items-center gap-2 text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800 transition"
           >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
             Skills auswählen
           </button>
 
@@ -126,16 +165,42 @@ export default function DashboardSkillModal() {
             {getSkillNamesFromIds(selectedTeachSkills).map((name) => (
               <li
                 key={name}
-                className="px-3 py-2 text-xs font-medium text-emerald-600 bg-emerald-100 rounded-full dark:text-emerald-300 dark:bg-gray-700"
+                className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-emerald-600 bg-emerald-100 rounded-full dark:text-emerald-300 dark:bg-gray-700 shadow-sm"
               >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
                 {name}
               </li>
             ))}
           </ul>
           <button
             onClick={() => setOpenModal("teach")}
-            className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+            className="inline-flex items-center gap-2 text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 transition"
           >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
             Skills auswählen
           </button>
 
@@ -149,46 +214,55 @@ export default function DashboardSkillModal() {
                     : "Welche Skills kannst du beibringen?"}
                 </h2>
 
-                {skillsByCategory.length === 0 ? (
+                <input
+                  type="text"
+                  placeholder="Skill suchen..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full mb-4 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 dark:bg-gray-800 dark:text-white"
+                />
+
+                {filteredSkillsByCategory.length === 0 ? (
                   <p className="text-gray-600 dark:text-white">
-                    Lade Skills...
+                    Keine Skills gefunden.
                   </p>
                 ) : (
-                  <div className="space-y-4">
-                    {skillsByCategory.map((group) => (
-                      <div key={group.category}>
-                        <h3 className="font-bold text-gray-800 dark:text-white mb-2">
+                  <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2">
+                    {filteredSkillsByCategory.map((group, idx) => (
+                      <details key={group.category} open>
+                        <summary className="font-bold text-gray-800 dark:text-white mb-2 cursor-pointer">
                           {group.category}
-                        </h3>
-                        <ul className="space-y-1">
-                          {group.skills.map((skill) => (
-                            <li
-                              key={skill.id}
-                              className="flex items-center gap-2"
-                            >
-                              <input
-                                type="checkbox"
-                                id={`${openModal}-${skill.id}`}
-                                checked={
-                                  openModal === "learn"
-                                    ? selectedLearnSkills.includes(skill.id)
-                                    : selectedTeachSkills.includes(skill.id)
-                                }
-                                onChange={() =>
+                        </summary>
+                        <ul className="flex flex-wrap gap-2">
+                          {group.skills.map((skill) => {
+                            const checked = (
+                              openModal === "learn"
+                                ? selectedLearnSkills
+                                : selectedTeachSkills
+                            ).includes(skill.id);
+
+                            return (
+                              <li
+                                key={skill.id}
+                                onClick={() =>
                                   handleCheckboxChange(skill.id, openModal)
                                 }
-                                className="accent-emerald-600"
-                              />
-                              <label
-                                htmlFor={`${openModal}-${skill.id}`}
-                                className="text-gray-700 dark:text-white"
+                                className={`cursor-pointer px-3 py-2 rounded-full text-sm font-medium transition
+                  ${
+                    checked
+                      ? openModal === "learn"
+                        ? "bg-orange-600 text-white"
+                        : "bg-emerald-600 text-white"
+                      : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-white"
+                  }
+                  hover:scale-105`}
                               >
                                 {skill.skill_name}
-                              </label>
-                            </li>
-                          ))}
+                              </li>
+                            );
+                          })}
                         </ul>
-                      </div>
+                      </details>
                     ))}
                   </div>
                 )}

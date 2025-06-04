@@ -17,12 +17,16 @@ function DashboardHero() {
         </div>
 
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-center text-white">
-          <h1 className="text-5xl font-bold leading-tight mb-4">
-            Willkommen zurück,
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+            Schön, dass du wieder da bist,
           </h1>
-          <h2 className="text-5xl font-bold leading-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
             {user.username || "Gast"}
           </h2>
+          <p className="text-lg md:text-2xl font-light max-w-2xl mx-auto">
+            Starte jetzt mit neuen Lernpartnern, entdecke spannende Skills und
+            wachse gemeinsam mit der Community!
+          </p>
         </div>
       </div>
     </section>
