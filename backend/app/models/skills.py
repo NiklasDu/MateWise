@@ -1,8 +1,11 @@
+# Tabelle die alle Skills beinhaltet, mit deren passender Kategorie.
+
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database import Base
 from .association import user_skills
 
+# Eigenschaften der Skills Tabelle 
 class Skill(Base):
     __tablename__ = "skills"
     id = Column(Integer, primary_key=True, index=True)

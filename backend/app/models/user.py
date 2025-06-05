@@ -1,9 +1,12 @@
+# Enthält alle relevanten Daten zu einem Nutzer bereit.
+
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 from app.database import Base 
 from .association import user_skills
 from app.models.association import user_skills_learn, user_skills_teach
 
+# Eigenschaften der User Tabelle
 class User(Base):
     __tablename__ = "users" 
 
@@ -15,7 +18,7 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     bio = Column(String)
 
-    # Beziehung zu Skills: Ein User kann viele Skills haben
+    # Beziehung zu Skills
     skills = relationship("Skill", secondary=user_skills, back_populates="users")
 
     skills_to_learn = relationship(
