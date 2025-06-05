@@ -1,3 +1,5 @@
+# Enthält alle Routen für das Laden der Chat-Partner
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -28,9 +30,9 @@ def get_chat_partners(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    sent = db.query(Message.receiver_id).filter(Message.sender_id == current_user.id)
+    # Nur User, von denen man selbst eine Nachricht bekommen hat
     received = db.query(Message.sender_id).filter(Message.receiver_id == current_user.id)
-    user_ids = set([row[0] for row in sent] + [row[0] for row in received])
+    user_ids = set([row[0] for row in received])
     user_ids.discard(current_user.id)
     users = db.query(User).filter(User.id.in_(user_ids)).all()
 
@@ -55,7 +57,6 @@ def get_chat_partners(
             "last_message_time": last_msg.timestamp.isoformat() if last_msg else "",
         })
 
-    # Nach Zeitstempel sortieren (neuester Chat oben)
     chat_partners.sort(key=lambda x: x["last_message_time"], reverse=True)
     return chat_partners
 

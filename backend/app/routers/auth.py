@@ -1,3 +1,5 @@
+# Erstellt den Token für die Websocket Verbindung für den LiveChat.
+
 from fastapi import APIRouter, Depends
 from datetime import datetime, timedelta
 from jose import jwt
@@ -8,6 +10,7 @@ from app.utils.jwt import SECRET_KEY, ALGORITHM
 
 router = APIRouter()
 
+# API Route, um den Token für WebSocket zu erstellen.
 @router.get("/auth/ws-token")
 def get_ws_token(user: User = Depends(get_current_user)):
     expire = datetime.now() + timedelta(minutes=5) 
