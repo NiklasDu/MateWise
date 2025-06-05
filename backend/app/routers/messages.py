@@ -1,18 +1,20 @@
-# Enthält alle Routen für das Laden der Chat-Partner
+# Enthält alle Routen für das Laden der Chat-Partner und Chats
 
+# Import Statements
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.message import Message
 from app.models.user import User
 from app.schemas.message import MessageCreate
-# from app.utils.dependencies import get_current_user
 from app.routers.user import get_current_user
 from pydantic import BaseModel
 from sqlalchemy import or_, desc
 
+# Gibt die Standard Route für alle Router in dieser Datei an
 router = APIRouter(prefix="/messages", tags=["Messages"])
 
+# Speichert eine neue Nachricht in der Datenbank.
 @router.post("/")
 def send_message(message: MessageCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     new_message = Message(
@@ -25,6 +27,7 @@ def send_message(message: MessageCreate, db: Session = Depends(get_db), current_
     db.refresh(new_message)
     return new_message
 
+# Zeigt alle Chatpartner an, von denen der angemeldete Nutzer bereits eine Nachricht erhalten hat.
 @router.get("/chat-partners")
 def get_chat_partners(
     db: Session = Depends(get_db),
@@ -60,6 +63,8 @@ def get_chat_partners(
     chat_partners.sort(key=lambda x: x["last_message_time"], reverse=True)
     return chat_partners
 
+# GET Request, um den Chatverlauf, zwsichen dem angemeldetem User und dem angeklickten Nutzer
+# zu erhalten
 @router.get("/{user_id}")
 def get_chat_history(
     user_id: int, 

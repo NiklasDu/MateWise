@@ -1,3 +1,6 @@
+# Hier befinden sich alle Routen zur Userverwaltung.
+
+# Import Statements 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -8,23 +11,23 @@ from fastapi import Request
 from app.utils.jwt import create_access_token, ALGORITHM, SECRET_KEY
 from fastapi.responses import JSONResponse
 from jose import JWTError, jwt
-
 from typing import List
 
+# API Adressen Prefix für alle Routen in dieser Datei.
 router = APIRouter(prefix="/users", tags=["Users"])
 
-# GET /users → Alle Benutzer abrufen
+# Alle Benutzer abrufen
 @router.get("/", response_model=list[user_schema.UserOut])
 def get_users(db: Session = Depends(get_db)):
     users = db.query(user_model.User).all()
     return users
 
-# GET All Users with Username and Skills
+# Alle User mit Username und Skills bekommen
 @router.get("/all", response_model=List[user_schema.UserWithSkills])
 def get_all_users(db: Session = Depends(get_db)):
     return db.query(user_model.User).all()
 
-# POST /users/register → Neuen Benutzer erstellen
+# Neuen Benutzer erstellen. 
 @router.post("/register", response_model=user_schema.UserOut)
 def register_user(user: user_schema.UserCreate, db: Session = Depends(get_db)):
     # Gibt es die E-Mail schon?
@@ -32,6 +35,7 @@ def register_user(user: user_schema.UserCreate, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="Email bereits vergeben")
     
+    # Passwort hashen
     hashed_pw = hash_password(user.password)
 
     new_user = user_model.User(
@@ -46,7 +50,7 @@ def register_user(user: user_schema.UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
-# POST /users/login > Anmelden
+# Benutzer anmelden, Passwort abgleichen und Token für Sitzung erstellen. 
 @router.post("/login", response_model=user_schema.UserOut)
 def login_user(user: user_schema.UserLogin, db: Session = Depends(get_db)):
     db_user = db.query(user_model.User).filter(user_model.User.email == user.email).first()
@@ -72,6 +76,7 @@ def login_user(user: user_schema.UserLogin, db: Session = Depends(get_db)):
 
     return response
 
+# Aktuell angemeldeten User abmelden und Token löschen
 @router.post("/logout")
 def logout(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
@@ -90,7 +95,7 @@ def logout(request: Request, db: Session = Depends(get_db)):
     response.delete_cookie("access_token", path="/")
     return response
 
-
+# Gucken ob gerade ein User angemeldet ist.
 def get_current_user(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if not token:
@@ -107,10 +112,12 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Benutzer nicht gefunden")
     return user
 
+# Aktuellen User bekommen 
 @router.get("/me", response_model=user_schema.UserOut)
 def read_current_user(current_user: user_model.User = Depends(get_current_user)):
     return current_user
 
+# Aktuellen User Updaten, neue Email, Bio oder Username.
 @router.patch("/me", response_model=user_schema.UserOut)
 def update_user_profile(
     update_data: user_schema.UserUpdate,
@@ -128,7 +135,7 @@ def update_user_profile(
     db.refresh(current_user)
     return current_user
 
-
+# Aktuellen User anpassen, Passwort ändern.
 @router.post("/change-password")
 def change_password(
     password_data: user_schema.ChangePassword,
@@ -145,7 +152,7 @@ def change_password(
     db.commit()
     return {"message": "Passwort erfolgreich geändert"}
 
-
+# Aktuellen User löschen.
 @router.delete("/me")
 def delete_own_user(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
@@ -166,6 +173,8 @@ def delete_own_user(request: Request, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Benutzerkonto gelöscht"}
 
+# Matching Algorithmus, um Nutzer anzuzeigen, die etwas beibringen, was der angemeldete
+# Nutzer lernen möchte und die etwas lernen wollen, was der angemeldete User beibringen kann.
 @router.get("/matches", response_model=List[user_schema.UserWithSkills])
 def get_matching_users(
     db: Session = Depends(get_db),
@@ -178,7 +187,7 @@ def get_matching_users(
     if not skills_to_learn_ids and not skills_to_teach_ids:
         return []
 
-    # Alle anderen Benutzer holen
+    # Alle anderen Benutzer holen, ausser den angemeldeten User.
     other_users = db.query(user_model.User).filter(user_model.User.id != current_user.id).all()
 
     matching_users = []
@@ -196,6 +205,7 @@ def get_matching_users(
 
     return matching_users
 
+# Gibt alle User je nach ausgewähltem Skill zurück, den diese Beibringen können. 
 @router.get("/by-skill", response_model=List[user_schema.UserWithSkills])
 def get_users_by_skill_to_teach(skill_to_teach_id: int, db: Session = Depends(get_db)):
     users = db.query(user_model.User).filter(
