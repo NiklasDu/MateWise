@@ -1,3 +1,5 @@
+# Enthält alle Schemas für die Userverwaltung in der Datenbank. 
+
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 

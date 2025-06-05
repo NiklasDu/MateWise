@@ -1,3 +1,5 @@
+# Enthält alle Schemas für die ResponseModel der Router der Vorschläge. 
+
 from pydantic import BaseModel
 
 class CategoryOut(BaseModel):

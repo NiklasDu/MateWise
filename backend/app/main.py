@@ -1,3 +1,5 @@
+# Main Datei in dem Backend. Erstellt die FastAPI und bindet die Routen ein.
+
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -14,7 +16,7 @@ from app.routers import messages
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",  # Deine React-App
+    "http://localhost:5173",  # Frontend
     "http://192.168.2.147:5173",
 ]
 
@@ -35,6 +37,7 @@ app.include_router(auth.router)
 app.include_router(messages.router)
 
 
-@app.get("/users", response_model=list[user_schema.UserOut])
-def read_users(db: Session = Depends(get_db)):
-    return db.query(user_model.User).all()
+# Nicht verwendet...
+# @app.get("/users", response_model=list[user_schema.UserOut])
+# def read_users(db: Session = Depends(get_db)):
+#     return db.query(user_model.User).all()

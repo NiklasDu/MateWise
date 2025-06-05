@@ -1,3 +1,5 @@
+# Enthält alle Schemas für ResponseModel der Skills.
+
 from pydantic import BaseModel
 from typing import List
 

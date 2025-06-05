@@ -13,9 +13,11 @@ from typing import List
 # API Adressen Prefix für alle Routen in dieser Datei.
 router = APIRouter(prefix="/suggestions", tags=["Suggestions"])
 
-# Anfragen in die Datenbank bringen
 @router.post("/request")
 def new_skill_suggestion(new_data: suggestions_schema.SkillCreate, db: Session = Depends(get_db)):
+    """
+    Vorshläge in die Datenbank bringen
+    """
     if not new_data.category or not new_data.skill:
         raise HTTPException(status_code=400, detail="Kategorie und Skill dürfen nicht leer sein")
     
@@ -28,15 +30,19 @@ def new_skill_suggestion(new_data: suggestions_schema.SkillCreate, db: Session =
     db.commit()
     return {"message": "Anfrage erfolgreich gestellt"}
 
-# Zeigt alle aktuell offenen Vorschläge an.
 @router.get("/all-requests", response_model=List[suggestions_schema.CategoryOut])
 def get_requests(db: Session = Depends(get_db)):
+    """
+    Zeigt alle aktuell offenen Vorschläge an.
+    """
     skill_requests = db.query(suggestions_model.Suggestions).all()
     return skill_requests
 
-# Löscht den ausgewählten Vorschlag aus der Datenbank.
 @router.delete("/{suggestion_id}")
 def delete_suggestion(suggestion_id: int, db: Session = Depends(get_db)):
+    """
+    Löscht den ausgewählten Vorschlag aus der Datenbank.
+    """
     suggestion = db.query(suggestions_model.Suggestions).filter(suggestions_model.Suggestions.id == suggestion_id).first()
 
     if not suggestion:

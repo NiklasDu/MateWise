@@ -1,3 +1,5 @@
+# Grundlegende Einstellungen für die Datenbank und das herstellen der Verbindung. 
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 

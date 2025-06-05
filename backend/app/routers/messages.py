@@ -14,9 +14,11 @@ from sqlalchemy import or_, desc
 # Gibt die Standard Route für alle Router in dieser Datei an
 router = APIRouter(prefix="/messages", tags=["Messages"])
 
-# Speichert eine neue Nachricht in der Datenbank.
 @router.post("/")
 def send_message(message: MessageCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    Speichert eine neue Nachricht in der Datenbank.
+    """
     new_message = Message(
         sender_id=current_user.id,
         receiver_id=message.receiver_id,
@@ -27,13 +29,14 @@ def send_message(message: MessageCreate, db: Session = Depends(get_db), current_
     db.refresh(new_message)
     return new_message
 
-# Zeigt alle Chatpartner an, von denen der angemeldete Nutzer bereits eine Nachricht erhalten hat.
 @router.get("/chat-partners")
 def get_chat_partners(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    # Nur User, von denen man selbst eine Nachricht bekommen hat
+    """
+    Zeigt alle Chatpartner an, von denen der angemeldete Nutzer bereits eine Nachricht erhalten hat.
+    """
     received = db.query(Message.sender_id).filter(Message.receiver_id == current_user.id)
     user_ids = set([row[0] for row in received])
     user_ids.discard(current_user.id)
@@ -63,14 +66,16 @@ def get_chat_partners(
     chat_partners.sort(key=lambda x: x["last_message_time"], reverse=True)
     return chat_partners
 
-# GET Request, um den Chatverlauf, zwsichen dem angemeldetem User und dem angeklickten Nutzer
-# zu erhalten
 @router.get("/{user_id}")
 def get_chat_history(
     user_id: int, 
     db: Session = Depends(get_db), 
     current_user: User = Depends(get_current_user)
 ):
+    """
+    GET Request, um den Chatverlauf, zwsichen dem angemeldetem User und dem angeklickten Nutzer
+    zu erhalten
+    """
     messages = db.query(Message).filter(
         ((Message.sender_id == current_user.id) & (Message.receiver_id == user_id)) |
         ((Message.sender_id == user_id) & (Message.receiver_id == current_user.id))

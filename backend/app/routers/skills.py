@@ -14,35 +14,44 @@ from app.schemas import suggestions as suggestion_schema
 # API Adressen Prefix für alle Routen in dieser Datei.
 router = APIRouter(prefix="/skills", tags=["Skills"])
 
-# Gibt alle Lern- und Lehrskills für den angemeldeten User zurück.
+
 @router.get("/my-skill-ids")
 def get_my_skill_ids(
     db: Session = Depends(get_db),
     current_user: user_model.User = Depends(get_current_user)
 ):
+    """
+    Gibt alle Lern- und Lehrskills für den angemeldeten User zurück.
+    """
     return {
         "learn": [skill.id for skill in current_user.skills_to_learn],
         "teach": [skill.id for skill in current_user.skills_to_teach]
     }
 
-# Gibt alle Kategorien zurück.
 @router.get("/categories")
 def get_all_categories(db: Session = Depends(get_db)):
+    """
+    Gibt alle Kategorien zurück.
+    """
     categories = db.query(category_model.Category).all()
     return [{"id": cat.id, "name": cat.name} for cat in categories]
 
-# Gibt alle Skills zurück.
 @router.get("/")
 def get_skills_by_category_name(category: str, db: Session = Depends(get_db)):
+    """
+    Gibt alle Skills zurück.
+    """
     category_obj = db.query(category_model.Category).filter(category_model.Category.name == category).first()
     if not category_obj:
         raise HTTPException(status_code=404, detail="Kategorie nicht gefunden")
 
     return [{"id": skill.id, "skill_name": skill.skill_name} for skill in category_obj.skills]
 
-# Gibt alle Skills nach Kategorien gruppiert zurück
 @router.get("/by-category", response_model=List[SkillsGroupedByCategory])
 def get_skills_by_category(db: Session = Depends(get_db)):
+    """
+    Gibt alle Skills nach Kategorien gruppiert zurück
+    """
     categories = db.query(category_model.Category).all()
     result = []
     for category in categories:
@@ -53,9 +62,11 @@ def get_skills_by_category(db: Session = Depends(get_db)):
         result.append(SkillsGroupedByCategory(category=category.name, skills=skills))
     return result
 
-# Fügt einen neuen Skill der Datenbank hinzu und je nach Kategorie, auch eine neue Kategorie.
 @router.post("/add-skill")
 def add_new_skill(new_data: suggestion_schema.SkillCreate, db:Session = Depends(get_db)):
+    """
+    Fügt einen neuen Skill der Datenbank hinzu und je nach Kategorie, auch eine neue Kategorie.
+    """
     
     existing_category = db.query(category_model.Category).filter(category_model.Category.name == new_data.category).first()
 
@@ -78,24 +89,31 @@ def add_new_skill(new_data: suggestion_schema.SkillCreate, db:Session = Depends(
     return{"message": "Neuer Skill erfolgreich gespeichert"}
     
 
-# Skills zum Lernen updaten.
 @router.post("/learn")
 def set_skills_to_learn(skill_ids: list[int], db: Session = Depends(get_db), current_user: user_model.User = Depends(get_current_user)):
+    """
+    Skills zum Lernen updaten.
+    """
     current_user.skills_to_learn = db.query(skill_model.Skill).filter(skill_model.Skill.id.in_(skill_ids)).all()
     db.commit()
     return {"message": "Lern-Skills aktualisiert"}
 
 
-# Skills zum Unterrichten updaten
 @router.post("/teach")
 def set_skills_to_teach(skill_ids: list[int], db: Session = Depends(get_db), current_user: user_model.User = Depends(get_current_user)):
+    """
+    Skills zum Unterrichten updaten
+    """
     current_user.skills_to_teach = db.query(skill_model.Skill).filter(skill_model.Skill.id.in_(skill_ids)).all()
     db.commit()
     return {"message": "Lehr-Skills aktualisiert"}
 
-# Speichert ausgewählte Skills 
 @router.post("/save-skills")
 def save_skills(payload: SaveSkillsRequest, db: Session = Depends(get_db), current_user: user_model.User = Depends(get_current_user)):
+    """
+    Speichert ausgewählte Skills 
+    """
+    
     learn_skills = db.query(skill_model.Skill).filter(skill_model.Skill.id.in_(payload.learn_skills)).all()
     teach_skills = db.query(skill_model.Skill).filter(skill_model.Skill.id.in_(payload.teach_skills)).all()
 

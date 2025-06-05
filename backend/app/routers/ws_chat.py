@@ -8,8 +8,11 @@ from jose import jwt, JWTError
 from app.database import SessionLocal
 from app.models.user import User
 
-# Holt sich den User nach ID.
+
 def get_user_by_id(user_id: int):
+    """
+    Holt sich den User nach ID.
+    """
     db = SessionLocal()
     try:
         user = db.query(User).filter(User.id == user_id).first()
@@ -22,9 +25,11 @@ router = APIRouter()
 
 active_connections: Dict[int, WebSocket] = {}
 
-# Erstellt eine aktive Verbindung für den LiveChat.
 @router.websocket("/ws/chat")
 async def chat_websocket(websocket: WebSocket, token: str = Query(...)):
+    """
+    Erstellt eine aktive Verbindung für den LiveChat.
+    """
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         user_id = int(payload.get("sub"))
