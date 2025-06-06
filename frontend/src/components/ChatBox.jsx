@@ -1,6 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
+/**
+ * ChatBox-Komponente
+ *
+ * Komplette Funktion für das Chatfenster, um mit anderen Nutzern zu chatten.
+ *
+ * - Lädt den Chat-Verlauf zwischen zwei Nutzern.
+ * - Erstellt eine Live Verbindung mit Websocket
+ * - Sendet Nachrichten
+ *
+ * @returns Den HTML Code zu der ChatBox.
+ */
 function ChatBox({ selectedUser, onClose }) {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
@@ -10,10 +21,12 @@ function ChatBox({ selectedUser, onClose }) {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Beim laden der Komponente wird der Chatverlauf geladen und der Token für die Live-Verbindung
+  // erstellt.
   useEffect(() => {
     if (!user || !selectedUser) return;
 
-    // 1. Nachrichtenverlauf laden
+    // Chatverlauf laden
     fetch(`${API_URL}/messages/${selectedUser.id}`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
@@ -25,13 +38,13 @@ function ChatBox({ selectedUser, onClose }) {
             }))
           );
         } else {
-          setMessages([]); // Falls Fehlerobjekt kommt
+          setMessages([]);
         }
       });
 
     let socket;
 
-    // 2. Token holen und dann WebSocket verbinden
+    // Token holen und dann WebSocket verbinden
     fetch(`${API_URL}/auth/ws-token`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
@@ -66,10 +79,12 @@ function ChatBox({ selectedUser, onClose }) {
     };
   }, [user, selectedUser, API_URL]);
 
+  // Beim Aufruf der Komponente wird direkt nach unten gescrollt.
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Sendet eine Nachricht an den Nutzer.
   const sendMessage = () => {
     if (
       input.trim() &&
@@ -112,6 +127,7 @@ function ChatBox({ selectedUser, onClose }) {
         Chat mit {selectedUser.username}
       </h2>
       <div className="h-64 overflow-y-auto border rounded-sm p-2 mb-2">
+        {/* Lädt alle Nachrichten. */}
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -128,6 +144,7 @@ function ChatBox({ selectedUser, onClose }) {
             </span>
           </div>
         ))}
+        {/* Gibt das Ende des Chats an, damit dorthin gescrollt werden kann. */}
         <div ref={messagesEndRef} />
       </div>
       <div className="flex gap-2">

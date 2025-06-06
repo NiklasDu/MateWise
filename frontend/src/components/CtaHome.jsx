@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Call-to-Action Bereich der Startseite
+ *
+ * Ruft den Besucher dazu auf, sich auf der Seite zu registrieren und leitet auf
+ * die Registrierungsseite weiter.
+ *
+ * @returns Den HTML Code für den Call-to-Action Bereicht auf der Startseite ganz unten.
+ */
 function CtaHome() {
   return (
     <section className="bg-white dark:bg-gray-900 py-8 min-h-[15vh]">

@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
+/**
+ * Dashboard Hero Komponente
+ *
+ * Begrüßt den angemeldeten Nutzer.
+ *
+ * @returns Den HTML Code für das Hero vom Dashboard.
+ */
 function DashboardHero() {
   const { user } = useAuth();
 
