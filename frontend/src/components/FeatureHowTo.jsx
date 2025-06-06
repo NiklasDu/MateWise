@@ -1,3 +1,10 @@
+/**
+ * How-To-Komponente (Startseite)
+ *
+ * - Erklärt dem Besucher der Startseite kurz wie die Webseite funktioniert.
+ *
+ * @returns den HTML Code für die Erklärung wie die Seite funktioniert (Startseiten Abschnitt)
+ */
 function FeatureHowTo() {
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -45,9 +52,10 @@ function FeatureHowTo() {
             </h1>
 
             <p className="text-gray-500 dark:text-gray-300">
-              Erstelle kostenlos dein Profil und werde Teil der MateWise-Community.
-              Je mehr du über dich und deine Lernziele verrätst, desto besser können
-              wir dich mit passenden Lernpartnern verbinden.
+              Erstelle kostenlos dein Profil und werde Teil der
+              MateWise-Community. Je mehr du über dich und deine Lernziele
+              verrätst, desto besser können wir dich mit passenden Lernpartnern
+              verbinden.
             </p>
           </div>
 
@@ -74,9 +82,10 @@ function FeatureHowTo() {
             </h1>
 
             <p className="text-gray-500 dark:text-gray-300">
-              Teile deine Fähigkeiten und Interessen. Egal ob du Klavier spielen,
-              Programmieren oder eine Sprache lernen möchtest – bei MateWise findest
-              du jemanden, der genau das sucht, was du anbieten kannst.
+              Teile deine Fähigkeiten und Interessen. Egal ob du Klavier
+              spielen, Programmieren oder eine Sprache lernen möchtest – bei
+              MateWise findest du jemanden, der genau das sucht, was du anbieten
+              kannst.
             </p>
           </div>
 
@@ -103,9 +112,9 @@ function FeatureHowTo() {
             </h1>
 
             <p className="text-gray-500 dark:text-gray-300">
-              Entdecke passende Lernpartner, tausche dich aus und wachst gemeinsam
-              über euch hinaus. Mit MateWise wird Lernen zum Erlebnis – persönlich,
-              flexibel und motivierend!
+              Entdecke passende Lernpartner, tausche dich aus und wachst
+              gemeinsam über euch hinaus. Mit MateWise wird Lernen zum Erlebnis
+              – persönlich, flexibel und motivierend!
             </p>
           </div>
         </div>

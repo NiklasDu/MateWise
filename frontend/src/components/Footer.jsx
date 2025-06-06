@@ -1,5 +1,14 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Footer-Komponente
+ *
+ * - Logo MateWise
+ * - Seitenwechsel/Navigation möglich
+ * - Anmelden möglich
+ *
+ * @returns den HTML Code für den Footer
+ */
 function Footer() {
   return (
     <footer className="bg-white dark:bg-gray-900">
@@ -39,11 +48,10 @@ function Footer() {
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2025{" "}
+          2025{" "}
           <Link to="/" className="hover:underline">
             MateWise
           </Link>
-          . All Rights Reserved.
         </span>
       </div>
     </footer>

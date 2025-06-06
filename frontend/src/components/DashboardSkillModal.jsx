@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
+/**
+ * Skillauswahl Komponente
+ *
+ * - Zeigt alle Skill an die der angemeldete User bereits ausgewählt hat.
+ * - Gibt die Möglichkeit die Skill in einem Modal anzupassen.
+ *
+ * @returns Den HTML Code für die Skill Auswahl, welche der User lernen oder beibringen möchte
+ */
 export default function DashboardSkillModal() {
   const [openModal, setOpenModal] = useState(null); // "learn" | "teach" | null
   const [skillsByCategory, setSkillsByCategory] = useState([]);
@@ -20,7 +28,7 @@ export default function DashboardSkillModal() {
         setSkillsByCategory(data);
       })
       .catch((err) => console.error("Fehler beim Laden der Skills:", err));
-  }, []); // <== nur beim ersten Rendern
+  }, []);
 
   // Lädt die Skills des eingeloggten Nutzers
   useEffect(() => {
@@ -37,6 +45,7 @@ export default function DashboardSkillModal() {
       );
   }, []);
 
+  // Wenn ein Skill angeklickt wird zeigt es ihn als ausgewählt oder nicht, je nach vorherigem Status.
   const handleCheckboxChange = (skillId, mode) => {
     if (mode === "learn") {
       setSelectedLearnSkills((prev) =>
@@ -53,6 +62,7 @@ export default function DashboardSkillModal() {
     }
   };
 
+  // Wird nach jedem schließen des Modals durchgeführt, um die Anpassung direkt zu speichern.
   const handleSaveSkills = () => {
     const userId = user.id;
 
@@ -82,6 +92,7 @@ export default function DashboardSkillModal() {
       });
   };
 
+  // Fügt den Skill Ids deren passenden Namen hinzu.
   const getSkillNamesFromIds = (ids) => {
     const allSkills = skillsByCategory.flatMap((group) => group.skills);
     return allSkills
@@ -89,6 +100,7 @@ export default function DashboardSkillModal() {
       .map((skill) => skill.skill_name);
   };
 
+  // Sortiert die Skills nach Kategorien.
   const filteredSkillsByCategory = skillsByCategory.map((group) => ({
     ...group,
     skills: group.skills.filter((skill) =>
@@ -119,6 +131,7 @@ export default function DashboardSkillModal() {
             Diese Skills möchte ich lernen:
           </h3>
           <ul className="list-none flex flex-wrap gap-3 text-gray-700 dark:text-white">
+            {/* Lädt die Liste an Lernskills für den angemeldeten User. */}
             {getSkillNamesFromIds(selectedLearnSkills).map((name) => (
               <li
                 key={name}
@@ -141,6 +154,7 @@ export default function DashboardSkillModal() {
               </li>
             ))}
           </ul>
+          {/* Öffnet das Modal, um neue Skills auszuwählen. */}
           <button
             onClick={() => setOpenModal("learn")}
             className="inline-flex items-center gap-2 text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800 transition"
@@ -165,6 +179,7 @@ export default function DashboardSkillModal() {
             Diese Skills kann ich gut:
           </h3>
           <ul className="list-none flex flex-wrap gap-3 text-gray-700 dark:text-white">
+            {/* Lädt die List an Skills die ein Nutzer jemand anderem beibringen kann. */}
             {getSkillNamesFromIds(selectedTeachSkills).map((name) => (
               <li
                 key={name}
@@ -187,6 +202,7 @@ export default function DashboardSkillModal() {
               </li>
             ))}
           </ul>
+          {/* Öffnet das Modal um neue Skills auszuwählen oder alte abzuwählen. */}
           <button
             onClick={() => setOpenModal("teach")}
             className="inline-flex items-center gap-2 text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 transition"
@@ -212,6 +228,7 @@ export default function DashboardSkillModal() {
             <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 dark:bg-white/25">
               <div className="bg-white rounded-xl p-6 w-full max-w-lg shadow-xl relative dark:bg-gray-900 max-h-[90vh] overflow-y-auto">
                 <h2 className="text-xl font-semibold mb-4 dark:text-white">
+                  {/* Je nachdem welches Modal geöffnet wird, wird ein anderer Inhalt geladen */}
                   {openModal === "learn"
                     ? "Welche Skills möchtest du lernen?"
                     : "Welche Skills kannst du beibringen?"}
@@ -231,6 +248,7 @@ export default function DashboardSkillModal() {
                   </p>
                 ) : (
                   <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2">
+                    {/* Zeigt alle Skills nach Kategorien sortiert an. */}
                     {filteredSkillsByCategory.map((group, idx) => (
                       <details key={group.category} open>
                         <summary className="font-bold text-gray-800 dark:text-white mb-2 cursor-pointer">
@@ -251,14 +269,14 @@ export default function DashboardSkillModal() {
                                   handleCheckboxChange(skill.id, openModal)
                                 }
                                 className={`cursor-pointer px-3 py-2 rounded-full text-sm font-medium transition
-                  ${
-                    checked
-                      ? openModal === "learn"
-                        ? "bg-orange-600 text-white"
-                        : "bg-emerald-600 text-white"
-                      : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-white"
-                  }
-                  hover:scale-105`}
+                                          ${
+                                            checked
+                                              ? openModal === "learn"
+                                                ? "bg-orange-600 text-white"
+                                                : "bg-emerald-600 text-white"
+                                              : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-white"
+                                          }
+                                          hover:scale-105`}
                               >
                                 {skill.skill_name}
                               </li>
@@ -270,6 +288,7 @@ export default function DashboardSkillModal() {
                   </div>
                 )}
 
+                {/* Button um das Modal zu schließen. */}
                 <button
                   onClick={() => {
                     handleSaveSkills();

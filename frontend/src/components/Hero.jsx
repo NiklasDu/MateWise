@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Startseiten-Hero Komponente
+ *
+ * - Aushängeschild der Webseite (das erste was ein Besucher sieht)
+ * - Erklärt die Seite in zwei Sätzen
+ *
+ * @returns den HTML Code für den Startseiten Hero.
+ */
 function Hero() {
   return (
     <section className="bg-white dark:bg-gray-900">

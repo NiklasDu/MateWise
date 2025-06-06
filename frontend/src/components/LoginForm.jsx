@@ -2,6 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+/**
+ * Login Komponente
+ *
+ * - Prüft auf valide eingaben des Users und meldet in ggf. an
+ * - Falls kein Konto vorhanden kann zu Registrierungs Form rübergewechselt werden
+ *
+ * @returns den HTML Code für die Loginseite
+ */
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,6 +19,7 @@ function LoginForm() {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Kümmert sich um das absenden der Nutzerdaten und prüft dann das Passwort und die Email.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -60,6 +69,7 @@ function LoginForm() {
           Melde dich hier an
         </p>
 
+        {/* Form für die Eingabe der Nutzerdaten. */}
         <form onSubmit={handleSubmit}>
           <div className="w-full mt-4">
             <input
@@ -85,6 +95,7 @@ function LoginForm() {
             />
           </div>
 
+          {/* Bei Fehler wird er in Rot unter dem Form angezeigt. */}
           {error && (
             <p className="mt-2 text-sm text-red-600 dark:text-red-400">
               {error}
@@ -111,6 +122,7 @@ function LoginForm() {
           Noch kein Konto?
         </span>
 
+        {/* Leitet zu der Registrierung weiter. */}
         <Link
           to="/register"
           className="mx-2 text-sm font-bold text-emerald-500 dark:text-emerald-400 hover:underline"

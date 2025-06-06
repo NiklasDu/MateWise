@@ -1,3 +1,10 @@
+/**
+ * Vorteile Komponente (Startseite)
+ *
+ * - Listet einige Vorteile der Webseite auf.
+ *
+ * @returns den HTML Code für den Abschnitt der Startseite, der die Vorteile auflistet.
+ */
 function FeatureAdvantages() {
   return (
     <section className="bg-white dark:bg-gray-900">

@@ -2,6 +2,15 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Lernpartner Finden Hero
+ *
+ * - Hier kann nach Nutzern gefiltert werden
+ * - Entweder alle, wenn man einfach suchen drückt, oder nur nach bestimmtem Skill oder
+ * - perfekte Lernpartner, die das beibringen, was man lernen möchte und anders herum
+ *
+ * @returns den HTML Code für den MatchingHero
+ */
 function MatchingHero({ onFindMatches, onSearch }) {
   const [categories, setCategories] = useState([]);
   const [skills, setSkills] = useState([]);
@@ -10,6 +19,7 @@ function MatchingHero({ onFindMatches, onSearch }) {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Beim Laden der Seite, alle Kategorien laden.
   useEffect(() => {
     fetch(`${API_URL}/skills/categories`)
       .then((res) => res.json())
@@ -17,6 +27,7 @@ function MatchingHero({ onFindMatches, onSearch }) {
       .catch((err) => console.error("Kategorien-Fehler:", err));
   }, []);
 
+  // Je nach ausgewählte Kategorie sollen passende Skills in das zweite Dropdown geladen werden.
   useEffect(() => {
     if (selectedCategory) {
       fetch(`${API_URL}/skills?category=${selectedCategory}`)
@@ -28,6 +39,7 @@ function MatchingHero({ onFindMatches, onSearch }) {
     }
   }, [selectedCategory]);
 
+  // Gibt die Suche Frei.
   const handleSearch = (e) => {
     e.preventDefault();
     if (!selectedCategory || !selectedSkill) {
@@ -44,6 +56,7 @@ function MatchingHero({ onFindMatches, onSearch }) {
     navigate(`/matching?skill=${selectedSkill}`);
   };
 
+  // Sucht passende Matches für den Nutzer.
   const handleFindMatches = () => {
     if (typeof onFindMatches === "function") {
       onFindMatches();

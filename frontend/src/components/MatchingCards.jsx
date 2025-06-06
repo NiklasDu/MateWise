@@ -5,6 +5,16 @@ import { useAuth } from "../context/AuthContext"; // falls du den User brauchst
 import * as funEmoji from "@dicebear/fun-emoji";
 import { createAvatar } from "@dicebear/core";
 
+/**
+ * Matching User Komponente
+ *
+ * - Zeigt alle User an, um zu schauen wer was lernen möchte und beibringen kann
+ * - Gibt Möglichkeit Profil Detailliert anzuschauen
+ * - Von hier aus kann man Nutzer Kontaktieren per Chat
+ * - Erstellt Avatare pro Username
+ *
+ * @returns den HTML Code für die Userübersicht.
+ */
 function MatchingCards({ propSkillToTeachId, showMatches }) {
   const [users, setUsers] = useState([]);
   const [openModal, setOpenModal] = useState(null);
@@ -16,6 +26,7 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Paging Logik
   const [page, setPage] = useState(1);
   const CARDS_PER_PAGE = 20;
 
@@ -25,13 +36,17 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
     page * CARDS_PER_PAGE
   );
 
+  // Beim laden werden die Nutzer je nach Auswahl in dem MatchingHero.jsx angezeigt.
   useEffect(() => {
     let endpoint;
     if (showMatches) {
+      // Nur Nutzer die direkt zu dem angemeldeten User passen von den Skills
       endpoint = `${API_URL}/users/matches`;
     } else if (skillToTeachId) {
+      // Nur Nutzer die einen bestimmten Skill beibringen können
       endpoint = `${API_URL}/users/by-skill?skill_to_teach_id=${skillToTeachId}`;
     } else {
+      // Alle Nutzer
       endpoint = `${API_URL}/users/all`;
     }
 
@@ -70,12 +85,14 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
     <section className="bg-white dark:bg-gray-900">
       <div className="max-w-screen-xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center">
+          {/* Wenn kein User gefunden, dann "Kein Nutzer vorhanden anzeigen", sonst 16 Pro Seite */}
           {pagedUsers.length > 0 ? (
             pagedUsers.map((user) => (
               <div
                 key={user.id}
                 className="max-w-sm w-full h-[585px] flex flex-col bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700 transition hover:shadow-xl"
               >
+                {/* Erstellt die Avatarbilder über Dicebear API */}
                 <div
                   className="rounded-t-lg max-h-[400px]"
                   dangerouslySetInnerHTML={{
@@ -300,6 +317,7 @@ function MatchingCards({ propSkillToTeachId, showMatches }) {
           </div>
         )}
 
+        {/* Zwischen den Seiten Wechseln */}
         {totalPages > 0 && (
           <div className="flex justify-center items-center gap-2 mt-8">
             <button

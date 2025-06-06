@@ -1,6 +1,15 @@
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 
+/**
+ * New Skill Komponente (Dashboard)
+ *
+ * - Es kann eine Kategorie ausgewählt werden oder eine neue erstellt werden.
+ * - Dazu wird dann ein neuer Skillvorschlag eingegeben
+ * - Dieser wird nach abschicken an den Admin gesendet.
+ *
+ * @returns Den HTML Abschnitt für das Anfragen von neuen Skills und Kategorien.
+ */
 function DashboardNewSkills() {
   const [newCategory, setNewCategory] = useState("");
   const [newSkillName, setNewSkillName] = useState("");
@@ -10,6 +19,7 @@ function DashboardNewSkills() {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Lädt alle Kategorien für das Dropdown Menü.
   useEffect(() => {
     fetch(`${API_URL}/skills/categories`)
       .then((res) => res.json())
@@ -17,6 +27,9 @@ function DashboardNewSkills() {
       .catch((err) => console.error("Fehler beim Laden der Kategorien:", err));
   }, [API_URL]);
 
+  // Wenn Senden gedrückt wird, der Vorschlag je nach vorhandener oder neuer Kategorie an die
+  // Suggestions Tabelle in der Datenbank gesendet, von wo aus der Admin in seinem Dashboard
+  // die Vorschläge annehmen oder ablehnen kann.
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -25,6 +38,7 @@ function DashboardNewSkills() {
       ((isNewCategory && newCategory !== "") ||
         (!isNewCategory && selectedCategory !== ""))
     ) {
+      // Logik zu neuem Kategorievorschlag + Skillvorschlag
       if (isNewCategory) {
         try {
           const res = await fetch(`${API_URL}/suggestions/request`, {
@@ -59,6 +73,7 @@ function DashboardNewSkills() {
           console.error("Fehler beim Anfrage stellen:", error);
         }
       } else {
+        // Logik zu neuem Skillvorschlag mit vorhandener Kategorie.
         try {
           const res = await fetch(`${API_URL}/suggestions/request`, {
             method: "POST",
@@ -112,6 +127,7 @@ function DashboardNewSkills() {
             <label className="block text-base font-medium text-gray-900 dark:text-white mb-1">
               Kategorie
             </label>
+            {/* Gibt die Auswahl zwischen vorhandener Kategorie oder neuer. */}
             {!isNewCategory ? (
               <select
                 value={selectedCategory}
@@ -135,6 +151,7 @@ function DashboardNewSkills() {
                 onChange={(e) => setNewCategory(e.target.value)}
               />
             )}
+            {/* Legt den Status fest, ob gerade eine neue Kategorie erstellt werden soll oder nicht. */}
             <button
               type="button"
               onClick={() => setIsNewCategory((prev) => !prev)}
@@ -149,6 +166,7 @@ function DashboardNewSkills() {
             <label className="block text-base font-medium text-gray-900 dark:text-white mb-1">
               Skill
             </label>
+            {/* Input für den neuen Skillnamen. */}
             <input
               type="text"
               className="shadow-xs bg-gray-50 border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
@@ -159,6 +177,7 @@ function DashboardNewSkills() {
             />
           </div>
           <div className="pt-2">
+            {/* Skill Vorschlag einreichen. */}
             <button
               type="submit"
               className="w-full text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-base px-5 py-2.5 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800 transition"
