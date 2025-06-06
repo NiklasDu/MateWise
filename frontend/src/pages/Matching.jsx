@@ -2,6 +2,11 @@ import MatchingHero from "../components/MatchingHero";
 import MatchingCards from "../components/MatchingCards";
 import { useState } from "react";
 
+/**
+ * Zusammensetzen aller Matching Komponenten
+ *
+ * @returns die Lernpartner finden Seite
+ */
 function Matching() {
   const [selectedSkillId, setSelectedSkillId] = useState(null);
   const [showMatches, setShowMatches] = useState(false);

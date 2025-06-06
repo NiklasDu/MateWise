@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
+/**
+ * Profil Anpassungs Komponente
+ *
+ * - erlaubt das Ändern des Passworts, Nutzernamen, Email und Bio
+ * - Konto kann auch über einen Button gelöscht werden
+ *
+ * @returns den HTML Code für die Profilanpassung auf dem Dashboard
+ */
 function ProfileEdit() {
   const { user, logout, refreshUser } = useAuth();
 
@@ -24,9 +32,10 @@ function ProfileEdit() {
   }, [user]);
 
   const handleSubmit = async (e) => {
+    // verhindert das neuladen der Seite
     e.preventDefault();
 
-    // 1. Nutzerprofil aktualisieren (Name oder Email)
+    // Nutzerprofil aktualisieren (Name oder Email)
     try {
       const updateData = {};
       if (username !== user.username) updateData.username = username;
@@ -60,7 +69,7 @@ function ProfileEdit() {
       console.error("Fehler beim Aktualisieren des Profils:", err);
     }
 
-    // 2. Passwort ändern (wenn gewünscht)
+    // Passwort ändern (wenn gewünscht)
     const wantsPasswordChange = passwordOld || passwordNew1 || passwordNew2;
 
     if (wantsPasswordChange) {
@@ -112,6 +121,7 @@ function ProfileEdit() {
     }
   };
 
+  // Konto löschen
   const handleDeleteAccount = async () => {
     if (
       confirm(

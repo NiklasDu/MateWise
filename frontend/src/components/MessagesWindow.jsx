@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 import ChatBox from "./ChatBox";
 
+/**
+ * Nachrichten-Eingangs Komponente
+ *
+ * - zeigt die Nutzer an, mit denen schon gechattet wurde
+ * - zeigt Onlinestatus an
+ * - lässt auf das Chatfenster zugreifen
+ * - zeigt letzte Nachricht von einem Nutzer in Kurzübersicht an
+ *
+ * @returns den HTML Code für die Anzeige aller Nachrichten die ein User bekommen hat.
+ */
 function MessagesWindow() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -12,6 +22,7 @@ function MessagesWindow() {
   const USERS_PER_PAGE = 10;
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Lädt alle Chatpartner (also Nutzer, von denen man eine Nachricht bekommen hat)
   useEffect(() => {
     fetch(`${API_URL}/messages/chat-partners`, { credentials: "include" })
       .then((res) => res.json())

@@ -2,12 +2,22 @@ import { useState, useEffect } from "react";
 import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+/**
+ * Navigations Bar Komponente
+ *
+ * - lässt das Navigieren zwischen Seiten zu
+ * - zeigt ob man angemeldet ist
+ * - zeigt "Abmelden" Button an
+ *
+ * @returns den HTML Code für die Navbar
+ */
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
+  // Loggt den Nutzer aus.
   const handleLogout = async () => {
     navigate("/");
     await logout();

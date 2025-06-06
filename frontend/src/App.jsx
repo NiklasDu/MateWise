@@ -12,6 +12,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 
+/**
+ * Zusammensetzen der gesamten App, über Routen und hinzufügen von Navbar und Footer
+ *
+ * @returns die Navbar, den Footer und alle Frontend Routen
+ */
 function App() {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";

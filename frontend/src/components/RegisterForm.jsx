@@ -1,6 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+/**
+ * Registrieren Komponente
+ *
+ * - Erlaubt das anlegen eines neuen Userkontos, mit Email, Name und Passwort
+ *
+ * @returns den HTML Code für die Registrieren Seite
+ */
 function RegisterForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
