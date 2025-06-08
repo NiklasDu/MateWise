@@ -91,3 +91,4 @@ $RECYCLE.BIN/
 out/
 backend/matewise.db
 backend/matewise.db
+backend/alembic.ini
