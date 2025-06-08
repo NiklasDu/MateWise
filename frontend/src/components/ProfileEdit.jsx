@@ -62,7 +62,7 @@ function ProfileEdit() {
           return;
         } else {
           await refreshUser();
-          alert("Profil aktualisiert.");
+          alert("Name und Email aktualisiert.");
         }
       }
     } catch (err) {

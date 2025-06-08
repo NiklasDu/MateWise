@@ -23,7 +23,7 @@ function App() {
   const isRegisterPage = location.pathname === "/register";
   return (
     <>
-      {!isRegisterPage && <Navbar />}
+      {<Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
 

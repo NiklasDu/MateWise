@@ -44,10 +44,6 @@ function MessagesWindow() {
           <h2 className="text-3xl font-medium text-gray-800 dark:text-white">
             Nachrichten
           </h2>
-
-          <span className="px-3 py-1 text-sm text-emerald-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-emerald-400">
-            0 neue
-          </span>
         </div>
 
         <div className="flex flex-col mt-6">
@@ -139,7 +135,7 @@ function MessagesWindow() {
                     </td>
                     <td className="px-4 py-4 text-sm whitespace-nowrap">
                       <div className="flex items-center gap-x-2">
-                        <p className="text-xs rounded-full dark:text-white dark:bg-gray-900 truncate max-w-[200px] overflow-hidden whitespace-nowrap">
+                        <p className="text-xs rounded-full dark:text-white hover:dark:bg-gray-600 truncate max-w-[200px] overflow-hidden whitespace-nowrap">
                           {user.last_message
                             ? user.last_message
                             : "Noch keine Nachrichten"}
