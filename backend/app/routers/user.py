@@ -3,6 +3,7 @@
 # Import Statements 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 from app.database import get_db
 from app.models import user as user_model
 from app.schemas import user as user_schema
@@ -12,6 +13,7 @@ from app.utils.jwt import create_access_token, ALGORITHM, SECRET_KEY
 from fastapi.responses import JSONResponse
 from jose import JWTError, jwt
 from typing import List
+import random
 
 # API Adressen Prefix für alle Routen in dieser Datei.
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -30,7 +32,7 @@ def get_all_users(db: Session = Depends(get_db)):
     """
     Alle User mit Username und Skills bekommen
     """
-    return db.query(user_model.User).all()
+    return db.query(user_model.User).order_by(func.random()).all()
 
 
 @router.post("/register", response_model=user_schema.UserOut)
@@ -231,6 +233,8 @@ def get_matching_users(
         if teaches_what_i_learn and learns_what_i_teach:
             matching_users.append(user)
 
+    random.shuffle(matching_users)
+
     return matching_users
 
 
@@ -241,7 +245,7 @@ def get_users_by_skill_to_teach(skill_to_teach_id: int, db: Session = Depends(ge
     """
     users = db.query(user_model.User).filter(
         user_model.User.skills_to_teach.any(id=skill_to_teach_id)
-    ).all()
+    ).order_by(func.random()).all()
     
     return users
 
