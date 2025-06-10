@@ -119,12 +119,6 @@ alembic upgrade head
 
 ---
 
-## Lizenz
-
-Dieses Projekt ist ein Studienprojekt und steht unter keiner speziellen Lizenz. Für private und Lernzwecke frei verwendbar.
-
----
-
 ## Autor
 
 - Niklas
