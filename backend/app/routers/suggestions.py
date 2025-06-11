@@ -16,7 +16,7 @@ router = APIRouter(prefix="/suggestions", tags=["Suggestions"])
 @router.post("/request")
 def new_skill_suggestion(new_data: suggestions_schema.SkillCreate, db: Session = Depends(get_db)):
     """
-    Vorshläge in die Datenbank bringen
+    Vorschläge in die Datenbank bringen
     """
     if not new_data.category or not new_data.skill:
         raise HTTPException(status_code=400, detail="Kategorie und Skill dürfen nicht leer sein")

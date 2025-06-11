@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 *.log
 *.sqlite3
-*.db
 *.env
 *.env.*
 *.DS_Store
@@ -27,9 +26,7 @@ venv/
 /backend/__pycache__/
 /backend/app/__pycache__/
 /backend/app/**/__pycache__/
-/backend/matewise.db
 /backend/*.sqlite3
-/backend/*.db
 /backend/.env
 /backend/.env.*
 
@@ -89,6 +86,4 @@ $RECYCLE.BIN/
 *.iml
 .idea/
 out/
-backend/matewise.db
-backend/matewise.db
 backend/alembic.ini
